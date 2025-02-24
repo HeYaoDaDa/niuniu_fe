@@ -1,0 +1,76 @@
+{
+    "items": [
+        {
+            "id": "sand",
+            "name": "Sand",
+            "describe": "Sand...",
+            "sort": 0
+        },
+        {
+            "id": "log",
+            "name": "Log",
+            "describe": "Log...",
+            "sort": 100
+        },
+        {
+            "id": "sand_sword",
+            "name": "Sand Sword",
+            "describe": "Sand Sword...",
+            "sort": 1000,
+            "attack": 10
+        }
+    ],
+    "monsters": [
+        {
+            "id": "snake",
+            "name": "Snake",
+            "hp": 100,
+            "mp": 100,
+            "attack": 5,
+            "attackDuration": 3000
+        }
+    ],
+    "miningAreas": [
+        {
+            "id": "beach",
+            "name": "Beach",
+            "describe": "Beach!",
+            "sort": 0,
+            "time": 3000,
+            "loot": [
+                {
+                    "id": "sand",
+                    "percentage": 100,
+                    "min": 1,
+                    "max": 1
+                }
+            ]
+        }
+    ],
+    "woodcuttingAreas": [
+        {
+            "id": "forest",
+            "name": "Forest",
+            "describe": "Forest!",
+            "sort": 0,
+            "time": 6000,
+            "loot": [
+                {
+                    "id": "log",
+                    "percentage": 100,
+                    "min": 1,
+                    "max": 1
+                }
+            ]
+        }
+    ],
+    "combatAreas": [
+        {
+            "id": "grass",
+            "name": "Grass",
+            "describe": "Be careful of snakes.",
+            "sort": 0,
+            "monster": "snake"
+        }
+    ]
+}
