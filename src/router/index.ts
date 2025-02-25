@@ -2,10 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import LoginView from '@/views/LoginView.vue'
-import MiningView from '@/views/game/MiningView.vue'
+import SkillAreaView from '@/views/game/SkillAreaView.vue'
 import LoadingView from '@/views/LoadingView.vue'
-import { useGameStore } from '@/stores/game'
-import WoodcuttingView from '@/views/game/WoodcuttingView.vue'
+import { useGameDataStore } from '@/stores/gameData'
 import CombatView from '@/views/game/CombatView.vue'
 
 const router = createRouter({
@@ -19,14 +18,9 @@ const router = createRouter({
       component: HomeView,
       children: [
         {
-          path: 'mining',
-          name: 'mining',
-          component: MiningView
-        },
-        {
-          path: 'woodcutting',
-          name: 'woodcutting',
-          component: WoodcuttingView
+          path: 'skill/:id',
+          name: 'skill',
+          component: SkillAreaView
         },
         {
           path: 'combat',
@@ -54,10 +48,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  const gameStore = useGameStore();
-  if (to.meta.requireGameData && ['none', 'loading'].includes(gameStore.status)) {
-    if ('none' === gameStore.status) {
-      gameStore.loadData();
+  const gameDataStore = useGameDataStore();
+  if (to.meta.requireGameData && ['none', 'loading'].includes(gameDataStore.dataStatus)) {
+    if ('none' === gameDataStore.dataStatus) {
+      gameDataStore.loadData();
     }
     return { name: 'loading' };
   }

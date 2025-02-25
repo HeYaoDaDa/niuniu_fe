@@ -17,24 +17,26 @@ export interface Monster {
     attackDuration: number;
 }
 
-export interface MiningArea {
+export interface SkillArea {
     id: string;
+    skill: string;
     name: string;
     describe: string;
 
     sort: number;
-    time: number;
-    loot: Loot[];
+    baseTime: number;
+    products: Loot[];
 }
 
+//TODO remove
 export interface WoodcauttingArea {
     id: string;
     name: string;
     describe: string;
 
     sort: number;
-    time: number;
-    loot: Loot[];
+    baseTime: number;
+    products: Loot[];
 }
 
 export interface CombatArea {
@@ -43,7 +45,7 @@ export interface CombatArea {
     describe: string;
 
     sort: number;
-    monster: string;
+    monsters: string[];
 }
 
 export interface Loot {
@@ -53,10 +55,9 @@ export interface Loot {
     max: number;
 }
 
-export interface GameData {
+export interface GameJsonData {
     items: PrefabItem[];
     monsters: Monster[];
-    miningAreas: MiningArea[];
-    woodcuttingAreas: WoodcauttingArea[];
+    skillAreas: SkillArea[];
     combatAreas: CombatArea[];
 }

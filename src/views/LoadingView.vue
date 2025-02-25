@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useGameStore } from '@/stores/game';
+import { useGameDataStore } from '@/stores/gameData';
 import { watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const gameStore = useGameStore();
+const gameDataStore = useGameDataStore();
 
 watchEffect(() => {
-  if ('finish' === gameStore.status) {
+  if ('finish' === gameDataStore.dataStatus) {
     router.replace({ name: 'mining' });
   } else {
     //TODO redirect to error page

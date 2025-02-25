@@ -3,21 +3,26 @@
         {
             "id": "sand",
             "name": "Sand",
-            "describe": "Sand...",
+            "description": "Sand.",
             "sort": 0
         },
         {
-            "id": "log",
-            "name": "Log",
-            "describe": "Log...",
+            "id": "mud",
+            "name": "Mud",
+            "description": "Mud.",
+            "sort": 1
+        },
+        {
+            "id": "wood",
+            "name": "Wood",
+            "description": "Wood.",
             "sort": 100
         },
         {
-            "id": "sand_sword",
-            "name": "Sand Sword",
-            "describe": "Sand Sword...",
-            "sort": 1000,
-            "attack": 10
+            "id": "iron_wood",
+            "name": "Wood",
+            "description": "Wood.",
+            "sort": 101
         }
     ],
     "monsters": [
@@ -33,44 +38,78 @@
     "miningAreas": [
         {
             "id": "beach",
+            "skill": "mining",
             "name": "Beach",
-            "describe": "Beach!",
+            "description": "Get beach.",
             "sort": 0,
-            "time": 3000,
-            "loot": [
+            "baseTime": 10000,
+            "products": [
                 {
                     "id": "sand",
                     "percentage": 100,
                     "min": 1,
-                    "max": 1
+                    "max": 3
                 }
             ]
-        }
-    ],
-    "woodcuttingAreas": [
+        },
         {
-            "id": "forest",
-            "name": "Forest",
-            "describe": "Forest!",
-            "sort": 0,
-            "time": 6000,
-            "loot": [
+            "id": "earth",
+            "skill": "mining",
+            "name": "Earth",
+            "description": "Get mud.",
+            "sort": 1,
+            "baseTime": 15000,
+            "products": [
                 {
-                    "id": "log",
+                    "id": "mud",
                     "percentage": 100,
                     "min": 1,
-                    "max": 1
+                    "max": 3
+                }
+            ]
+        },
+        {
+            "id": "forest",
+            "skill": "woodcutting",
+            "name": "Forest",
+            "description": "Get wood.",
+            "sort": 100,
+            "baseTime": 10000,
+            "products": [
+                {
+                    "id": "wood",
+                    "percentage": 100,
+                    "min": 1,
+                    "max": 3
+                }
+            ]
+        },
+        {
+            "id": "iron_forest",
+            "skill": "woodcutting",
+            "name": "Iron Forest",
+            "description": "Get iron wood.",
+            "sort": 101,
+            "baseTime": 15000,
+            "products": [
+                {
+                    "id": "iron_wood",
+                    "percentage": 100,
+                    "min": 1,
+                    "max": 3
                 }
             ]
         }
     ],
     "combatAreas": [
         {
-            "id": "grass",
-            "name": "Grass",
-            "describe": "Be careful of snakes.",
+            "id": "snake",
+            "name": "Snake",
+            "description": "Snake!",
             "sort": 0,
-            "monster": "snake"
+            "monsters": [
+                "snake"
+            ]
         }
     ]
 }
