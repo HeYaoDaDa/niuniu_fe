@@ -47,7 +47,9 @@ export const useActionStore = defineStore('action', () => {
 
   function addAction(action: Action) {
     actionQueue.value.push(action);
-    startAction();
+    if (actionQueue.value.length === 1) {
+      startAction();
+    }
   }
 
   function removeAction(index: number) {
@@ -71,10 +73,13 @@ export const useActionStore = defineStore('action', () => {
       currentActionDuration.value = duration;
       currentActionStartTime.value = performance.now();
       currentActionTimeoutId.value = setTimeout(completeAction, duration);
+    } else {
+      console.error(`Start action but isRunning is ${isRunning.value}, have timeoutId is ${currentActionTimeoutId.value !== undefined}`);
     }
   }
 
   function completeAction() {
+    currentActionTimeoutId.value = undefined;
     if (isRunning.value) {
       const action = actionQueue.value[0];
       if (action.isInfinite) {
