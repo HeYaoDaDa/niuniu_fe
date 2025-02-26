@@ -14,8 +14,13 @@ html {
 
 .header {
     grid-row: 1;
-    grid-column: 1 / span 3;
-    background-color: #19caad;
+    grid-column: 1 / -1;
+    min-height: 128px;
+    padding: 8px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 }
 
 .sidebar {

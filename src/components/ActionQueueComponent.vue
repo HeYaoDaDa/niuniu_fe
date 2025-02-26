@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Action } from '@/model/Action';
 import { useActionStore } from '@/stores/action';
 import { ref, onMounted, computed } from 'vue';
 
@@ -17,6 +18,25 @@ const actionAmountShow = computed(() => {
         return 'invalid';
     }
 });
+const actionDurationshow = computed(() => {
+    if (actionStore.currentActionDuration) {
+        return actionStore.currentActionDuration / 1000 + 's';
+    } else {
+        return 'invalid';
+    }
+});
+const peddingActionQueue = computed(() => {
+    if (actionStore.actionQueue.length > 1) {
+        return actionStore.actionQueue.slice(1);
+    } else {
+        return [];
+    }
+})
+
+//TODO
+function computeActionShow(action: Action) {
+    return action.actionType + ' | ' + action.target + ' [' + (action.isInfinite ? '∞' : action.amount) + ']'
+}
 
 onMounted(() => {
     const animate = (timestamp: number) => {
@@ -35,20 +55,40 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
-        <h1>{{ actionStore.currentActionName }} | {{ actionStore.currentActionTargetName }} [{{ actionAmountShow }}]
-        </h1>
-        <div class="progress-container">
-            <div class="progress-bar" :style="{ width: progress + '%' }"></div>
+    <div class="action-div">
+        <div>{{ actionStore.currentActionName }} | {{ actionStore.currentActionTargetName }} [{{ actionAmountShow }}]
         </div>
-        <button @click="actionStore.removeAction(0)">Stop</button>
+        <div class="action-bottom">
+            <div class="progress-container">
+                <div class="duration-show">{{ actionDurationshow }}</div>
+                <div class="progress-bar" :style="{ width: progress + '%' }"></div>
+            </div>
+            <button @click="actionStore.removeAction(0)">Stop</button>
+        </div>
+        <div v-if="peddingActionQueue.length > 0">
+            <div v-for="(action, index) in peddingActionQueue" :key="index">
+                <button @click="actionStore.removeAction(index + 1)">Remove {{ computeActionShow(action) }}</button>
+            </div>
+        </div>
     </div>
 </template>
 
 <style lang="css" scoped>
+.action-div {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.action-bottom {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
 .progress-container {
-    width: 300px;
-    height: 10px;
+    position: relative;
+    width: 256px;
+    height: 16px;
     background-color: #e0e0e0;
     border-radius: 5px;
     overflow: hidden;
@@ -58,5 +98,10 @@ onMounted(() => {
     height: 100%;
     background-color: #42b983;
     transition: width 100ms linear;
+}
+
+.duration-show {
+    position: absolute;
+    left: 50%;
 }
 </style>
