@@ -57,7 +57,9 @@ export const useActionStore = defineStore('action', () => {
       if (index === 0) {
         cancelAction();
         actionQueue.value.splice(index, 1);
-        startAction();
+        if (isRunning.value) {
+          startAction();
+        }
       } else {
         actionQueue.value.splice(index, 1);
       }
