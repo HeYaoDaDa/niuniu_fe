@@ -28,17 +28,6 @@ export interface SkillArea {
     products: Loot[];
 }
 
-//TODO remove
-export interface WoodcauttingArea {
-    id: string;
-    name: string;
-    describe: string;
-
-    sort: number;
-    baseTime: number;
-    products: Loot[];
-}
-
 export interface CombatArea {
     id: string;
     name: string;

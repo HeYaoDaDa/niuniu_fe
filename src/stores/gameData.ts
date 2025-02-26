@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios';
 import type { CombatArea, SkillArea, Monster, PrefabItem, GameJsonData } from "@/model/PrefabItem";
+import type { Skill } from '@/model/data/Skill';
 
 export const useGameDataStore = defineStore('gameData', () => {
   const itemMap = new Map<string, PrefabItem>();
@@ -45,6 +46,11 @@ export const useGameDataStore = defineStore('gameData', () => {
       combatAreaMap.set(combatArea.id, combatArea);
     }
   }
+  //TODO
+  function getSkillById(id: string): Skill | undefined {
+    console.log(id);
+    return undefined;
+  }
   function getItemById(id: string): PrefabItem | undefined {
     return itemMap.get(id);
   }
@@ -68,6 +74,7 @@ export const useGameDataStore = defineStore('gameData', () => {
   return {
     dataStatus,
     loadData,
+    getSkillById,
     getItemById,
     getMonsterById,
     getSkillAreaById,
