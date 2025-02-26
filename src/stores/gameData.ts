@@ -15,7 +15,7 @@ export const useGameDataStore = defineStore('gameData', () => {
   async function loadData() {
     dataStatus.value = 'loading';
     try {
-      const response = await axios.get('data.json');
+      const response = await axios.get('/data.json');
       const gameJsonData = response.data as GameJsonData;
       initData(gameJsonData);
       dataStatus.value = 'finish';
