@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      redirect: 'mining',
+      redirect: '/skill/mining',
       meta: { requireGameData: true },
       component: HomeView,
       children: [

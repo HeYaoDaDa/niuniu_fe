@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGameDataStore } from '@/stores/gameData';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -10,7 +10,7 @@ onBeforeRouteUpdate(async (to) => {
 });
 
 const gameDataStore = useGameDataStore();
-const areas = gameDataStore.getSkillAreasBySkillId(skillId.value);
+const areas = computed(() => gameDataStore.getSkillAreasBySkillId(skillId.value));
 </script>
 
 <template>

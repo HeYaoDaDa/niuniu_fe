@@ -7,8 +7,10 @@ const router = useRouter();
 const gameDataStore = useGameDataStore();
 
 watchEffect(() => {
-  if ('finish' === gameDataStore.dataStatus) {
-    router.replace({ name: 'mining' });
+  if ('none' === gameDataStore.dataStatus) {
+    gameDataStore.loadData();
+  } else if ('finish' === gameDataStore.dataStatus) {
+    router.replace('/skill/mining');
   } else {
     //TODO redirect to error page
   }

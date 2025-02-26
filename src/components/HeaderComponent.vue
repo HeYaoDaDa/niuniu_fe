@@ -1,38 +1,20 @@
 <script setup lang="ts">
 import { useActionStore } from '@/stores/action';
-import { useGameDataStore } from '@/stores/gameData';
 import { ref, onMounted } from 'vue';
 
 const actionStore = useActionStore();
 const progress = ref(0);
 
-function startNewAction(duration: number, delay: number = 0) {
-    const startTime = performance.now() - delay;
-
-    const animate = (timestamp: number) => {
-        const elapsed = timestamp - startTime;
-        progress.value = Math.min((elapsed / duration) * 100, 100);
-        if (elapsed < duration) {
-            requestAnimationFrame(animate);
-        } else {
-            //TODO have next action
-            const delay = elapsed - duration;
-            startNewAction(5000, delay);
-        }
-    };
-
-    requestAnimationFrame(animate);
-};
-
 onMounted(() => {
-    if (actionStore.currentAction) {
-        startNewAction(actionStore.currentAction.duration, 0);
-    }
-
-    const startTime = performance.now()
     const animate = (timestamp: number) => {
-
-
+        if (actionStore.isRunning) {
+            if (actionStore.currentActionStartTime && actionStore.currentActionDuration) {
+                const elapsed = timestamp - actionStore.currentActionStartTime;
+                progress.value = Math.min((elapsed / actionStore.currentActionDuration) * 100, 100);
+            } else {
+                console.error(`Action running but currentActionStartTime:(${actionStore.currentActionStartTime}), currentActionDuration:(${actionStore.currentActionDuration})`)
+            }
+        }
         requestAnimationFrame(animate)
     };
     requestAnimationFrame(animate);
@@ -40,8 +22,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div v-if="actionStore.currentAction">
-        <h1>{{ actionStore.currentAction.target }}</h1>
+    <div v-if="actionStore.isRunning">
+        <h1>{{ actionStore.currentActionName }}-{{ actionStore.currentActionTargetName }}</h1>
         <div class="progress-container">
             <div class="progress-bar" :style="{ width: progress + '%' }"></div>
         </div>

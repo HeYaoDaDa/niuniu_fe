@@ -11,8 +11,9 @@ export const useActionStore = defineStore('action', () => {
   const currentActionDuration = ref(undefined as number | undefined);
   const currentActionStartTime = ref(undefined as number | undefined);
 
+  const isRunning = computed(() => actionQueue.value.length > 0);
   const currentActionName = computed(() => {
-    if (actionQueue.value.length > 0) {
+    if (isRunning.value) {
       //TODO
       return actionQueue.value[0].actionType;
     } else {
@@ -20,7 +21,7 @@ export const useActionStore = defineStore('action', () => {
     }
   });
   const currentActionTargetName = computed(() => {
-    if (actionQueue.value.length > 0) {
+    if (isRunning.value) {
       const action = actionQueue.value[0];
       if ('combat' === action.actionType) {
         const area = gameDataStore.getCombatAreaById(action.target);
@@ -46,15 +47,15 @@ export const useActionStore = defineStore('action', () => {
 
   function addAction(action: Action) {
     actionQueue.value.push(action);
-    startAction(5000);
+    startAction();
   }
 
   function removeAction(index: number) {
-    if(actionQueue.value.length > index) {
-      if(index === 0){
+    if (actionQueue.value.length > index) {
+      if (index === 0) {
         cancelAction();
         actionQueue.value.splice(index, 1);
-        startAction(5000);
+        startAction();
       } else {
         actionQueue.value.splice(index, 1);
       }
@@ -63,32 +64,25 @@ export const useActionStore = defineStore('action', () => {
     }
   }
 
-  function startAction(duration: number) {
-    if (actionQueue.value.length > 0 && !currentActionTimeoutId.value) {
+  function startAction() {
+    //TODO compute duration
+    const duration = 5000;
+    if (isRunning.value && !currentActionTimeoutId.value) {
       currentActionDuration.value = duration;
       currentActionStartTime.value = performance.now();
       currentActionTimeoutId.value = setTimeout(completeAction, duration);
     }
   }
 
-  function cancelAction() {
-    if (actionQueue.value.length > 0 && currentActionTimeoutId.value) {
-      currentActionDuration.value = undefined;
-      currentActionStartTime.value = undefined;
-      clearTimeout(currentActionTimeoutId.value);
-      currentActionTimeoutId.value = undefined;
-    }
-  }
-
   function completeAction() {
-    if (actionQueue.value.length > 0) {
+    if (isRunning.value) {
       const action = actionQueue.value[0];
       if (action.isInfinite) {
-        startAction(5000);
+        startAction();
       } else {
         if (action.amount > 1) {
           action.amount -= 1;
-          startAction(5000);
+          startAction();
         } else {
           removeAction(0);
         }
@@ -98,9 +92,19 @@ export const useActionStore = defineStore('action', () => {
     }
   }
 
+  function cancelAction() {
+    if (isRunning.value && currentActionTimeoutId.value) {
+      currentActionDuration.value = undefined;
+      currentActionStartTime.value = undefined;
+      clearTimeout(currentActionTimeoutId.value);
+      currentActionTimeoutId.value = undefined;
+    }
+  }
+
   return {
     actionQueue,
 
+    isRunning,
     currentActionDuration,
     currentActionStartTime,
     currentActionName,

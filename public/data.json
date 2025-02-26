@@ -35,7 +35,7 @@
             "attackDuration": 3000
         }
     ],
-    "miningAreas": [
+    "skillAreas": [
         {
             "id": "beach",
             "skill": "mining",
