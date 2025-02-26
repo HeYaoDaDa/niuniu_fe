@@ -1,16 +1,15 @@
 import { defineStore } from 'pinia'
-import { computed, ref, shallowRef } from 'vue';
+import { computed, ref } from 'vue';
 import type { Action } from '@/model/Action';
 import { useGameDataStore } from './gameData';
 
 export const useActionStore = defineStore('action', () => {
   const gameDataStore = useGameDataStore();
 
-  const actionQueue = shallowRef([] as Action[]);
+  const actionQueue = ref([] as Action[]);
   const currentActionTimeoutId = ref(undefined as number | undefined);
   const currentActionDuration = ref(undefined as number | undefined);
   const currentActionStartTime = ref(undefined as number | undefined);
-  const currentActionPerformance = ref(undefined as number | undefined);
 
   const currentActionName = computed(() => {
     if (actionQueue.value.length > 0) {
@@ -47,22 +46,37 @@ export const useActionStore = defineStore('action', () => {
 
   function addAction(action: Action) {
     actionQueue.value.push(action);
-    if (actionQueue.value.length === 0) {
-      startAction(5000);
-    }
+    startAction(5000);
   }
 
   function removeAction(index: number) {
-    // TODO
+    if(actionQueue.value.length > index) {
+      if(index === 0){
+        cancelAction();
+        actionQueue.value.splice(index, 1);
+        startAction(5000);
+      } else {
+        actionQueue.value.splice(index, 1);
+      }
+    } else {
+      console.error(`ActionQueue index ${index} not exist`);
+    }
   }
 
-
-
   function startAction(duration: number) {
-    if (currentActionTimeoutId.value) {
+    if (actionQueue.value.length > 0 && !currentActionTimeoutId.value) {
       currentActionDuration.value = duration;
       currentActionStartTime.value = performance.now();
       currentActionTimeoutId.value = setTimeout(completeAction, duration);
+    }
+  }
+
+  function cancelAction() {
+    if (actionQueue.value.length > 0 && currentActionTimeoutId.value) {
+      currentActionDuration.value = undefined;
+      currentActionStartTime.value = undefined;
+      clearTimeout(currentActionTimeoutId.value);
+      currentActionTimeoutId.value = undefined;
     }
   }
 
@@ -76,10 +90,7 @@ export const useActionStore = defineStore('action', () => {
           action.amount -= 1;
           startAction(5000);
         } else {
-          actionQueue.value.shift();
-          if (actionQueue.value.length === 0) {
-            startAction(5000);
-          }
+          removeAction(0);
         }
       }
     } else {
@@ -92,7 +103,6 @@ export const useActionStore = defineStore('action', () => {
 
     currentActionDuration,
     currentActionStartTime,
-    currentActionPerformance,
     currentActionName,
     currentActionTargetName,
 
