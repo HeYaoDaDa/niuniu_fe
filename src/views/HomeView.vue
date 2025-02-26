@@ -8,7 +8,7 @@ import { RouterView } from 'vue-router'
 <template>
   <div class="layout-container">
     <div class="header">
-      <h1>木牛放置</h1>
+      <h1>Wood Cow Idle</h1>
       <HeaderComponent />
     </div>
 
