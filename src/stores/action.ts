@@ -2,9 +2,11 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue';
 import type { Action } from '@/model/Action';
 import { useGameDataStore } from './gameData';
+import { useInventoryStore } from './inventory';
 
 export const useActionStore = defineStore('action', () => {
   const gameDataStore = useGameDataStore();
+  const inventoryStore = useInventoryStore();
 
   const actionQueue = ref([] as Action[]);
   const currentActionTimeoutId = ref(undefined as number | undefined);
@@ -84,6 +86,7 @@ export const useActionStore = defineStore('action', () => {
     currentActionTimeoutId.value = undefined;
     if (isRunning.value) {
       const action = actionQueue.value[0];
+      calculateRewards(action);
       if (action.isInfinite) {
         startAction();
       } else {
@@ -96,6 +99,19 @@ export const useActionStore = defineStore('action', () => {
       }
     } else {
       console.error('Complete action not exist');
+    }
+  }
+
+  function calculateRewards(action: Action) {
+    const area = gameDataStore.getSkillAreaById(action.target);
+    if (area) {
+      const products = area.products;
+      for (const product of products) {
+        //TODO
+        inventoryStore.add(product.id, product.max);
+      }
+    } else {
+      console.error(`Area ${action.target} not exist`);
     }
   }
 
