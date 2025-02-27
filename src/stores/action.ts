@@ -4,6 +4,7 @@ import { useInventoryStore } from './inventory';
 import type { SkillArea } from '@/model/data/SkillArea';
 import type { Amount } from '@/model/Amount';
 import type { Item } from '@/model/data/Item';
+import MersenneTwister from 'mersenne-twister';
 
 export const useActionStore = defineStore('action', () => {
   const inventoryStore = useInventoryStore();
@@ -121,8 +122,10 @@ class RunningAction {
     const products = this.action.area.products;
     const result = [] as [Item, number][];
     for (const product of products) {
-      //TODO
-      result.push([product.item, product.max]);
+      const rng = new MersenneTwister();
+      if (product.percentage >= rng.random_incl() * 100) {
+        result.push([product.item, Math.floor(product.min + rng.random_incl() * (product.max - product.min + 1))]);
+      }
     }
     return result;
   }
