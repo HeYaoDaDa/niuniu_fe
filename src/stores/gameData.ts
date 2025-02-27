@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios';
 import { Skill } from '@/model/data/Skill';
@@ -17,6 +17,9 @@ export const useGameDataStore = defineStore('gameData', () => {
   const combatAreaMap = new Map<string, CombatArea>();
 
   const dataStatus = ref('none' as 'none' | 'loading' | 'finish' | 'fail');
+
+  const allSkills = computed(() => Array.from(skillMap.values()).sort((a, b) => a.sort - b.sort));
+  const allCombatArea = computed(() => Array.from(combatAreaMap.values()).sort((a, b) => a.sort - b.sort));
 
   async function loadData() {
     dataStatus.value = 'loading';
@@ -76,12 +79,13 @@ export const useGameDataStore = defineStore('gameData', () => {
   function getSkillAreasBySkillId(skillId: string): SkillArea[] {
     return skillAreasMap.get(skillId) ?? []
   }
-  function getAllCombatAreas(): CombatArea[] {
-    return Array.from(combatAreaMap.values());
-  }
 
   return {
     dataStatus,
+
+    allSkills,
+    allCombatArea,
+
     loadData,
     getSkillById,
     getItemById,
@@ -90,6 +94,5 @@ export const useGameDataStore = defineStore('gameData', () => {
     getSkillAreaById,
     getCombatAreaById,
     getSkillAreasBySkillId,
-    getAllCombatAreas
   }
 });

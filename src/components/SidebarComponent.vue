@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import { useGameDataStore } from '@/stores/gameData';
+
+const gameDataStore = useGameDataStore();
 </script>
 
 <template>
     <div>
         <ul>
-            <li>
-                <router-link to="/skill/mining" active-class="active-link">Mining</router-link>
-            </li>
-            <li>
-                <router-link to="/skill/woodcutting" active-class="active-link">Woodcutting</router-link>
+            <li v-for="skill in gameDataStore.allSkills" :key="skill.id">
+                <router-link :to="`/skill/${skill.id}`" active-class="active-link">{{ skill.name }}</router-link>
             </li>
             <li>
                 <router-link to="/combat" active-class="active-link">Combat</router-link>
