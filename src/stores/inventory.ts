@@ -28,6 +28,11 @@ export const useInventoryStore = defineStore('inventory', () => {
       inventoryItemMap.set(item.id, new InventoryItem(item, amount));
     }
   }
+  function adds(items: [Item | string, number][]) {
+    for (const [itemOrId, amount] of items) {
+      add(itemOrId, amount);
+    }
+  }
   function remove(id: string, amount: number) {
     const existItem = inventoryItemMap.get(id);
     if (existItem) {
@@ -47,6 +52,7 @@ export const useInventoryStore = defineStore('inventory', () => {
   return {
     inventoryItems,
     add,
+    adds,
     remove
   }
 })

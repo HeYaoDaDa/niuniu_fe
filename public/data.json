@@ -64,7 +64,7 @@
             "name": "Beach",
             "description": "Get beach.",
             "sort": 0,
-            "baseTime": 10000,
+            "baseTime": 3000,
             "products": [
                 {
                     "id": "sand",
@@ -80,7 +80,7 @@
             "name": "Earth",
             "description": "Get mud.",
             "sort": 1,
-            "baseTime": 15000,
+            "baseTime": 6000,
             "products": [
                 {
                     "id": "mud",
@@ -96,7 +96,7 @@
             "name": "Forest",
             "description": "Get wood.",
             "sort": 100,
-            "baseTime": 10000,
+            "baseTime": 3500,
             "products": [
                 {
                     "id": "wood",
@@ -112,7 +112,7 @@
             "name": "Iron Forest",
             "description": "Get iron wood.",
             "sort": 101,
-            "baseTime": 15000,
+            "baseTime": 7000,
             "products": [
                 {
                     "id": "iron_wood",

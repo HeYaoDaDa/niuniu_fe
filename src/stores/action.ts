@@ -3,6 +3,7 @@ import { computed, reactive, shallowReactive, shallowRef, type ShallowReactive }
 import { useInventoryStore } from './inventory';
 import type { SkillArea } from '@/model/data/SkillArea';
 import type { Amount } from '@/model/Amount';
+import type { Item } from '@/model/data/Item';
 
 export const useActionStore = defineStore('action', () => {
   const inventoryStore = useInventoryStore();
@@ -22,8 +23,11 @@ export const useActionStore = defineStore('action', () => {
   function removeAction(index: number) {
     if (actionQueue.length > index) {
       if (index === 0) {
-        cancelAction();
         actionQueue.splice(index, 1);
+        if (runningAction.value) {
+          runningAction.value.cancel();
+          runningAction.value = undefined;
+        }
         if (isRunning.value) {
           startAction();
         }
@@ -36,25 +40,24 @@ export const useActionStore = defineStore('action', () => {
   }
 
   function startAction() {
-    //TODO compute duration
-    const duration = 5000;
     if (isRunning.value && !runningAction.value) {
-      runningAction.value = new RunningAction(actionQueue[0], performance.now(), duration, setTimeout(completeAction, duration))
+      runningAction.value = actionQueue[0].start(completeAction);
     } else {
       console.error(`Start action but isRunning is ${isRunning.value}, have runningAction is ${runningAction.value !== undefined}`);
     }
   }
 
   function completeAction() {
-    runningAction.value = undefined;
-    if (isRunning.value) {
-      const action = actionQueue[0];
-      calculateRewards(action);
-      if (action.amount.isInfinite) {
+    if (runningAction.value) {
+      const loots = runningAction.value.calculateRewards();
+      const amount = runningAction.value.action.amount;
+      runningAction.value = undefined;
+      inventoryStore.adds(loots);
+      if (amount.isInfinite) {
         startAction();
       } else {
-        if (action.amount.amount > 1) {
-          action.amount.amount -= 1;
+        if (amount.amount > 1) {
+          amount.amount -= 1;
           startAction();
         } else {
           removeAction(0);
@@ -62,21 +65,6 @@ export const useActionStore = defineStore('action', () => {
       }
     } else {
       console.error('Complete action not exist');
-    }
-  }
-
-  function calculateRewards(action: ActionQueueItem) {
-    const products = action.area.products;
-    for (const product of products) {
-      //TODO
-      inventoryStore.add(product.item, product.max);
-    }
-  }
-
-  function cancelAction() {
-    if (isRunning.value && runningAction.value) {
-      clearTimeout(runningAction.value.timeoutId);
-      runningAction.value = undefined;
     }
   }
 
@@ -98,6 +86,16 @@ class ActionQueueItem {
     this.area = shallowReactive(area);
   }
 
+  start(completeAction: () => void): RunningAction {
+    const duration = this.calculateDuration()
+    return new RunningAction(this, performance.now(), duration, setTimeout(completeAction, duration));
+  }
+
+  calculateDuration(): number {
+    //TODO
+    return this.area.baseTime;
+  }
+
   toString(): string {
     return `${this.area.skill.name} | ${this.area.name} [${this.amount}]`
   }
@@ -113,5 +111,19 @@ class RunningAction {
 
   getDurationShow(): string {
     return this.duration / 1_000 + 's';
+  }
+
+  cancel() {
+    clearTimeout(this.timeoutId);
+  }
+
+  calculateRewards(): [Item, number][] {
+    const products = this.action.area.products;
+    const result = [] as [Item, number][];
+    for (const product of products) {
+      //TODO
+      result.push([product.item, product.max]);
+    }
+    return result;
   }
 }
