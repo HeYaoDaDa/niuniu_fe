@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, reactive, ref, shallowReactive, type ShallowReactive } from 'vue';
+import { computed, reactive, shallowReactive, shallowRef, type ShallowReactive } from 'vue';
 import { useInventoryStore } from './inventory';
 import type { SkillArea } from '@/model/data/SkillArea';
 import type { Amount } from '@/model/Amount';
@@ -8,26 +8,9 @@ export const useActionStore = defineStore('action', () => {
   const inventoryStore = useInventoryStore();
 
   const actionQueue = reactive([] as ActionQueueItem[]);
-  const currentActionTimeoutId = ref(undefined as number | undefined);
-  const currentActionDuration = ref(undefined as number | undefined);
-  const currentActionStartTime = ref(undefined as number | undefined);
+  const runningAction = shallowRef(undefined as RunningAction | undefined);
 
   const isRunning = computed(() => actionQueue.length > 0);
-  const currentActionName = computed(() => {
-    if (isRunning.value) {
-      return actionQueue[0].area.skill.name;
-    } else {
-      return undefined;
-    }
-  });
-  const currentActionTargetName = computed(() => {
-    if (isRunning.value) {
-      const action = actionQueue[0];
-      return action.area.name;
-    } else {
-      return undefined;
-    }
-  });
 
   function addAction(area: SkillArea, amount: Amount) {
     actionQueue.push(new ActionQueueItem(area, amount));
@@ -55,17 +38,15 @@ export const useActionStore = defineStore('action', () => {
   function startAction() {
     //TODO compute duration
     const duration = 5000;
-    if (isRunning.value && !currentActionTimeoutId.value) {
-      currentActionDuration.value = duration;
-      currentActionStartTime.value = performance.now();
-      currentActionTimeoutId.value = setTimeout(completeAction, duration);
+    if (isRunning.value && !runningAction.value) {
+      runningAction.value = new RunningAction(actionQueue[0], performance.now(), duration, setTimeout(completeAction, duration))
     } else {
-      console.error(`Start action but isRunning is ${isRunning.value}, have timeoutId is ${currentActionTimeoutId.value !== undefined}`);
+      console.error(`Start action but isRunning is ${isRunning.value}, have runningAction is ${runningAction.value !== undefined}`);
     }
   }
 
   function completeAction() {
-    currentActionTimeoutId.value = undefined;
+    runningAction.value = undefined;
     if (isRunning.value) {
       const action = actionQueue[0];
       calculateRewards(action);
@@ -93,22 +74,17 @@ export const useActionStore = defineStore('action', () => {
   }
 
   function cancelAction() {
-    if (isRunning.value && currentActionTimeoutId.value) {
-      currentActionDuration.value = undefined;
-      currentActionStartTime.value = undefined;
-      clearTimeout(currentActionTimeoutId.value);
-      currentActionTimeoutId.value = undefined;
+    if (isRunning.value && runningAction.value) {
+      clearTimeout(runningAction.value.timeoutId);
+      runningAction.value = undefined;
     }
   }
 
   return {
     actionQueue,
+    runningAction,
 
     isRunning,
-    currentActionDuration,
-    currentActionStartTime,
-    currentActionName,
-    currentActionTargetName,
 
     addAction,
     removeAction
@@ -124,5 +100,18 @@ class ActionQueueItem {
 
   toString(): string {
     return `${this.area.skill.name} | ${this.area.name} [${this.amount}]`
+  }
+}
+
+class RunningAction {
+  constructor(
+    public action: ActionQueueItem,
+    public startTime: number,
+    public duration: number,
+    public timeoutId: number
+  ) { }
+
+  getDurationShow(): string {
+    return this.duration / 1_000 + 's';
   }
 }

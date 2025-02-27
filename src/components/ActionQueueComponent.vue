@@ -7,8 +7,8 @@ const actionStore = useActionStore();
 const progress = ref(0);
 
 const actionDurationshow = computed(() => {
-    if (actionStore.currentActionDuration) {
-        return actionStore.currentActionDuration / 1000 + 's';
+    if (actionStore.runningAction) {
+        return actionStore.runningAction.getDurationShow();
     } else {
         return 'invalid';
     }
@@ -24,11 +24,11 @@ const peddingActionQueue = computed(() => {
 onMounted(() => {
     const animate = (timestamp: number) => {
         if (actionStore.isRunning) {
-            if (actionStore.currentActionStartTime && actionStore.currentActionDuration) {
-                const elapsed = timestamp - actionStore.currentActionStartTime;
-                progress.value = Math.min((elapsed / actionStore.currentActionDuration) * 100, 100);
+            if (actionStore.runningAction) {
+                const elapsed = timestamp - actionStore.runningAction.startTime;
+                progress.value = Math.min((elapsed / actionStore.runningAction.duration) * 100, 100);
             } else {
-                console.error(`Action running but currentActionStartTime:(${actionStore.currentActionStartTime}), currentActionDuration:(${actionStore.currentActionDuration})`)
+                console.error(`Action running but runningAction:(${actionStore.runningAction})`)
             }
         }
         requestAnimationFrame(animate)
@@ -39,8 +39,7 @@ onMounted(() => {
 
 <template>
     <div class="action-div">
-        <div>{{ actionStore.currentActionName }} | {{ actionStore.currentActionTargetName }} [{{
-            actionStore.actionQueue[0].amount }}]
+        <div>{{ actionStore.runningAction?.action }}]
         </div>
         <div class="action-bottom">
             <div class="progress-container">
