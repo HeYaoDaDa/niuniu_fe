@@ -57,6 +57,9 @@ export const useGameDataStore = defineStore('gameData', () => {
   function getMonsterById(id: string): Monster | undefined {
     return monsterMap.get(id);
   }
+  function getMonstersByIds(ids: string[]): Monster[] {
+    return ids.map(id => monsterMap.get(id)).filter(value => value !== undefined);
+  }
   function getSkillAreaById(id: string): SkillArea | undefined {
     return skillAreaMap.get(id);
   }
@@ -77,6 +80,7 @@ export const useGameDataStore = defineStore('gameData', () => {
     getSkillById,
     getItemById,
     getMonsterById,
+    getMonstersByIds,
     getSkillAreaById,
     getCombatAreaById,
     getSkillAreasBySkillId,
