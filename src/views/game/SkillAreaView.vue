@@ -18,11 +18,7 @@ const actionStore = useActionStore();
 const areas = computed(() => gameDataStore.getSkillAreasBySkillId(skillId.value));
 
 function addAction(area: SkillArea) {
-  const action = {
-    area,
-    amount: Amount.infinite()
-  };
-  actionStore.addAction(action);
+  actionStore.addAction(area, Amount.infinite());
 }
 </script>
 

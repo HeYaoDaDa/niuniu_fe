@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue';
-import type { Action } from '@/model/Action';
 import { useInventoryStore } from './inventory';
+import type { SkillArea } from '@/model/data/SkillArea';
+import type { Amount } from '@/model/Amount';
 
 export const useActionStore = defineStore('action', () => {
   const inventoryStore = useInventoryStore();
 
-  const actionQueue = ref([] as Action[]);
+  const actionQueue = ref([] as ActionQueueItem[]);
   const currentActionTimeoutId = ref(undefined as number | undefined);
   const currentActionDuration = ref(undefined as number | undefined);
   const currentActionStartTime = ref(undefined as number | undefined);
@@ -28,8 +29,8 @@ export const useActionStore = defineStore('action', () => {
     }
   });
 
-  function addAction(action: Action) {
-    actionQueue.value.push(action);
+  function addAction(area: SkillArea, amount: Amount) {
+    actionQueue.value.push(new ActionQueueItem(area, amount));
     if (actionQueue.value.length === 1) {
       startAction();
     }
@@ -83,7 +84,7 @@ export const useActionStore = defineStore('action', () => {
     }
   }
 
-  function calculateRewards(action: Action) {
+  function calculateRewards(action: ActionQueueItem) {
     const products = action.area.products;
     for (const product of products) {
       //TODO
@@ -113,3 +114,14 @@ export const useActionStore = defineStore('action', () => {
     removeAction
   }
 })
+
+class ActionQueueItem {
+  constructor(
+    public area: SkillArea,
+    public amount: Amount
+  ) { }
+
+  toString(): string {
+    return `${this.area.skill.name} | ${this.area.name} [${this.amount}]`
+  }
+}

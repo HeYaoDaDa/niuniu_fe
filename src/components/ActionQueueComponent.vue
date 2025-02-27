@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Action } from '@/model/Action';
 import { useActionStore } from '@/stores/action';
 import { ref, onMounted, computed } from 'vue';
 
@@ -21,11 +20,6 @@ const peddingActionQueue = computed(() => {
         return [];
     }
 })
-
-//TODO
-function computeActionShow(action: Action) {
-    return action.area.skill.name + ' | ' + action.area.name + ' [' + action.amount + ']'
-}
 
 onMounted(() => {
     const animate = (timestamp: number) => {
@@ -57,7 +51,7 @@ onMounted(() => {
         </div>
         <div v-if="peddingActionQueue.length > 0">
             <div v-for="(action, index) in peddingActionQueue" :key="index">
-                <button @click="actionStore.removeAction(index + 1)">Remove {{ computeActionShow(action) }}</button>
+                <button @click="actionStore.removeAction(index + 1)">Remove {{ action.toString() }}</button>
             </div>
         </div>
     </div>
