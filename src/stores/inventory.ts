@@ -53,10 +53,8 @@ export const useInventoryStore = defineStore('inventory', () => {
 
 class InventoryItem {
   item: ShallowReactive<Item>;
-  amount: number;
 
-  constructor(item: Item, amount: number) {
+  constructor(item: Item, public amount: number) {
     this.item = shallowReactive(item);
-    this.amount = amount;
   }
 }

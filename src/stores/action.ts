@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue';
+import { computed, reactive, ref, shallowReactive, type ShallowReactive } from 'vue';
 import { useInventoryStore } from './inventory';
 import type { SkillArea } from '@/model/data/SkillArea';
 import type { Amount } from '@/model/Amount';
@@ -7,22 +7,22 @@ import type { Amount } from '@/model/Amount';
 export const useActionStore = defineStore('action', () => {
   const inventoryStore = useInventoryStore();
 
-  const actionQueue = ref([] as ActionQueueItem[]);
+  const actionQueue = reactive([] as ActionQueueItem[]);
   const currentActionTimeoutId = ref(undefined as number | undefined);
   const currentActionDuration = ref(undefined as number | undefined);
   const currentActionStartTime = ref(undefined as number | undefined);
 
-  const isRunning = computed(() => actionQueue.value.length > 0);
+  const isRunning = computed(() => actionQueue.length > 0);
   const currentActionName = computed(() => {
     if (isRunning.value) {
-      return actionQueue.value[0].area.skill.name;
+      return actionQueue[0].area.skill.name;
     } else {
       return undefined;
     }
   });
   const currentActionTargetName = computed(() => {
     if (isRunning.value) {
-      const action = actionQueue.value[0];
+      const action = actionQueue[0];
       return action.area.name;
     } else {
       return undefined;
@@ -30,22 +30,22 @@ export const useActionStore = defineStore('action', () => {
   });
 
   function addAction(area: SkillArea, amount: Amount) {
-    actionQueue.value.push(new ActionQueueItem(area, amount));
-    if (actionQueue.value.length === 1) {
+    actionQueue.push(new ActionQueueItem(area, amount));
+    if (actionQueue.length === 1) {
       startAction();
     }
   }
 
   function removeAction(index: number) {
-    if (actionQueue.value.length > index) {
+    if (actionQueue.length > index) {
       if (index === 0) {
         cancelAction();
-        actionQueue.value.splice(index, 1);
+        actionQueue.splice(index, 1);
         if (isRunning.value) {
           startAction();
         }
       } else {
-        actionQueue.value.splice(index, 1);
+        actionQueue.splice(index, 1);
       }
     } else {
       console.error(`ActionQueue index ${index} not exist`);
@@ -67,7 +67,7 @@ export const useActionStore = defineStore('action', () => {
   function completeAction() {
     currentActionTimeoutId.value = undefined;
     if (isRunning.value) {
-      const action = actionQueue.value[0];
+      const action = actionQueue[0];
       calculateRewards(action);
       if (action.amount.isInfinite) {
         startAction();
@@ -116,10 +116,11 @@ export const useActionStore = defineStore('action', () => {
 })
 
 class ActionQueueItem {
-  constructor(
-    public area: SkillArea,
-    public amount: Amount
-  ) { }
+  area: ShallowReactive<SkillArea>;
+
+  constructor(area: SkillArea, public amount: Amount) {
+    this.area = shallowReactive(area);
+  }
 
   toString(): string {
     return `${this.area.skill.name} | ${this.area.name} [${this.amount}]`
