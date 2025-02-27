@@ -1,4 +1,4 @@
-name: Build and Deploy Quasar SPA
+name: Build and Deploy Vue
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build Quasar SPA
+      - name: Build Vue
         run: yarn build
 
       - name: Deploy to GitHub Pages
