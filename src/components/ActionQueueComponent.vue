@@ -7,17 +7,6 @@ const actionStore = useActionStore();
 
 const progress = ref(0);
 
-const actionAmountShow = computed(() => {
-    if (actionStore.isRunning) {
-        if (actionStore.actionQueue[0].isInfinite) {
-            return '∞';
-        } else {
-            return actionStore.actionQueue[0].amount.toString();
-        }
-    } else {
-        return 'invalid';
-    }
-});
 const actionDurationshow = computed(() => {
     if (actionStore.currentActionDuration) {
         return actionStore.currentActionDuration / 1000 + 's';
@@ -35,7 +24,7 @@ const peddingActionQueue = computed(() => {
 
 //TODO
 function computeActionShow(action: Action) {
-    return action.actionType + ' | ' + action.target + ' [' + (action.isInfinite ? '∞' : action.amount) + ']'
+    return action.area.skill.name + ' | ' + action.area.name + ' [' + action.amount + ']'
 }
 
 onMounted(() => {
@@ -56,7 +45,8 @@ onMounted(() => {
 
 <template>
     <div class="action-div">
-        <div>{{ actionStore.currentActionName }} | {{ actionStore.currentActionTargetName }} [{{ actionAmountShow }}]
+        <div>{{ actionStore.currentActionName }} | {{ actionStore.currentActionTargetName }} [{{
+            actionStore.actionQueue[0].amount }}]
         </div>
         <div class="action-bottom">
             <div class="progress-container">

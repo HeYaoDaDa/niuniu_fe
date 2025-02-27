@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Amount } from '@/model/Amount';
 import type { SkillArea } from '@/model/data/SkillArea';
 import { useActionStore } from '@/stores/action';
 import { useGameDataStore } from '@/stores/gameData';
@@ -18,11 +19,8 @@ const areas = computed(() => gameDataStore.getSkillAreasBySkillId(skillId.value)
 
 function addAction(area: SkillArea) {
   const action = {
-    actionType: skillId.value,
-    target: area.id,
-
-    isInfinite: true,
-    amount: 0,
+    area,
+    amount: Amount.infinite()
   };
   actionStore.addAction(action);
 }

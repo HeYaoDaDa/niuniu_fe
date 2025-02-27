@@ -1,7 +1,7 @@
-export interface Action {
-    actionType: string,
-    target: string,
+import type { Amount } from "./Amount";
+import type { SkillArea } from "./data/SkillArea";
 
-    isInfinite: boolean,
-    amount: number,
+export interface Action {
+    area: SkillArea;
+    amount: Amount;
 }

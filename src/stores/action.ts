@@ -1,11 +1,9 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue';
 import type { Action } from '@/model/Action';
-import { useGameDataStore } from './gameData';
 import { useInventoryStore } from './inventory';
 
 export const useActionStore = defineStore('action', () => {
-  const gameDataStore = useGameDataStore();
   const inventoryStore = useInventoryStore();
 
   const actionQueue = ref([] as Action[]);
@@ -16,8 +14,7 @@ export const useActionStore = defineStore('action', () => {
   const isRunning = computed(() => actionQueue.value.length > 0);
   const currentActionName = computed(() => {
     if (isRunning.value) {
-      //TODO
-      return actionQueue.value[0].actionType;
+      return actionQueue.value[0].area.skill.name;
     } else {
       return undefined;
     }
@@ -25,23 +22,7 @@ export const useActionStore = defineStore('action', () => {
   const currentActionTargetName = computed(() => {
     if (isRunning.value) {
       const action = actionQueue.value[0];
-      if ('combat' === action.actionType) {
-        const area = gameDataStore.getCombatAreaById(action.target);
-        if (area) {
-          return area.name;
-        } else {
-          console.error(`Combat action target ${action.target} not find`);
-          return 'Error action target';
-        }
-      } else {
-        const area = gameDataStore.getSkillAreaById(action.target);
-        if (area) {
-          return area.name;
-        } else {
-          console.error(`Skill action target ${action.target} not find`);
-          return 'Error action target';
-        }
-      }
+      return action.area.name;
     } else {
       return undefined;
     }
@@ -87,11 +68,11 @@ export const useActionStore = defineStore('action', () => {
     if (isRunning.value) {
       const action = actionQueue.value[0];
       calculateRewards(action);
-      if (action.isInfinite) {
+      if (action.amount.isInfinite) {
         startAction();
       } else {
-        if (action.amount > 1) {
-          action.amount -= 1;
+        if (action.amount.amount > 1) {
+          action.amount.amount -= 1;
           startAction();
         } else {
           removeAction(0);
@@ -103,15 +84,10 @@ export const useActionStore = defineStore('action', () => {
   }
 
   function calculateRewards(action: Action) {
-    const area = gameDataStore.getSkillAreaById(action.target);
-    if (area) {
-      const products = area.products;
-      for (const product of products) {
-        //TODO
-        inventoryStore.add(product.item, product.max);
-      }
-    } else {
-      console.error(`Area ${action.target} not exist`);
+    const products = action.area.products;
+    for (const product of products) {
+      //TODO
+      inventoryStore.add(product.item, product.max);
     }
   }
 

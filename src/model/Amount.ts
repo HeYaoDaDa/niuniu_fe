@@ -8,4 +8,8 @@ export class Amount {
     static finite(amount: number): Amount {
         return new Amount(false, amount);
     }
+
+    toString(): string {
+        return this.isInfinite ? '∞' : this.amount.toString();
+    }
 }
