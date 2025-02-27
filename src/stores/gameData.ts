@@ -76,7 +76,7 @@ export const useGameDataStore = defineStore('gameData', () => {
   function getSkillAreasBySkillId(skillId: string): SkillArea[] {
     return skillAreasMap.get(skillId) ?? []
   }
-  function getCombatAreas(): CombatArea[] {
+  function getAllCombatAreas(): CombatArea[] {
     return Array.from(combatAreaMap.values());
   }
 
@@ -90,6 +90,6 @@ export const useGameDataStore = defineStore('gameData', () => {
     getSkillAreaById,
     getCombatAreaById,
     getSkillAreasBySkillId,
-    getCombatAreas
+    getAllCombatAreas
   }
 });

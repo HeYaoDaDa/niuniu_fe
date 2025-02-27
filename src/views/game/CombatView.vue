@@ -6,7 +6,7 @@ const gameStore = useGameDataStore();
 
 <template>
   <div class="area-list">
-    <div class="area-item" v-for="area in gameStore.getCombatAreas()" :key="area.id">
+    <div class="area-item" v-for="area in gameStore.getAllCombatAreas()" :key="area.id">
       <p>{{ area.name }}</p>
       <p>{{ area.describe }}</p>
     </div>
