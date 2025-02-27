@@ -1,25 +1,19 @@
-import type { Item } from '@/model/Item';
+import type { InventoryItem } from '@/model/InventoryItem';
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue';
-import { useGameDataStore } from './gameData';
+import type { Item } from '@/model/data/Item';
 
 export const useInventoryStore = defineStore('inventory', () => {
-  const gameDataStore = useGameDataStore();
-  const itemMap = ref(new Map<string, Item>());
+  const itemMap = ref(new Map<string, InventoryItem>());
 
-  const items = computed(() => Array.from(itemMap.value.values()).sort((a, b) => a.prefabItem.sort - b.prefabItem.sort));
+  const items = computed(() => Array.from(itemMap.value.values()).sort((a, b) => a.item.sort - b.item.sort));
 
-  function add(id: string, amount: number) {
-    const existItem = itemMap.value.get(id);
+  function add(item: Item, amount: number) {
+    const existItem = itemMap.value.get(item.id);
     if (existItem) {
       existItem.amount += amount;
     } else {
-      const newItem = gameDataStore.getItemById(id);
-      if (newItem) {
-        itemMap.value.set(id, { prefabItem: newItem, amount });
-      } else {
-        console.error(`Not exist item id ${id}`);
-      }
+      itemMap.value.set(item.id, { item, amount });
     }
   }
   function remove(id: string, amount: number) {

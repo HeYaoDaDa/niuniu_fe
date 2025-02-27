@@ -1,3 +1,4 @@
+import { useGameDataStore } from "@/stores/gameData";
 import type { CombatAreaJson } from "../json/CombatAreaJson";
 import type { Monster } from "./Monster";
 
@@ -14,15 +15,15 @@ export class CombatArea {
 
 
     static fromJson(combatAreaJson: CombatAreaJson): CombatArea {
-        // const gameDataStore = useGameDataStore();
-        // const monsters = gameDataStore.getMonstersByIds(combatAreaJson.monsters);
+        const gameDataStore = useGameDataStore();
+        const monsters = gameDataStore.getMonstersByIds(combatAreaJson.monsters);
         return new CombatArea(
             combatAreaJson.id,
             combatAreaJson.name,
             combatAreaJson.describe,
 
             combatAreaJson.sort,
-            []
+            monsters,
         );
     }
 

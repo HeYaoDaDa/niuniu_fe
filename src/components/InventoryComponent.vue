@@ -7,8 +7,8 @@ const inventoryStore = useInventoryStore();
 
 <template>
     <div class="inventory-list">
-        <div class="inventory-item" v-for="item in inventoryStore.items" :key="item.prefabItem.id">
-            <p>{{ item.prefabItem.name }}</p>
+        <div class="inventory-item" v-for="item in inventoryStore.items" :key="item.item.id">
+            <p>{{ item.item.name }}</p>
             <p>{{ item.amount }}</p>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SkillArea } from '@/model/PrefabItem';
+import type { SkillArea } from '@/model/data/SkillArea';
 import { useActionStore } from '@/stores/action';
 import { useGameDataStore } from '@/stores/gameData';
 import { computed, ref } from 'vue';

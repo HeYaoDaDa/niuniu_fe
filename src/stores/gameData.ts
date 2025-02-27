@@ -1,11 +1,16 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios';
-import type { CombatArea, SkillArea, Monster, PrefabItem, GameJsonData } from "@/model/PrefabItem";
-import type { Skill } from '@/model/data/Skill';
+import { Skill } from '@/model/data/Skill';
+import { Item } from '@/model/data/Item';
+import { Monster } from '@/model/data/Monster';
+import { SkillArea } from '@/model/data/SkillArea';
+import { CombatArea } from '@/model/data/CombatArea';
+import type { GameDataJson } from '@/model/json/GameDataJson';
 
 export const useGameDataStore = defineStore('gameData', () => {
-  const itemMap = new Map<string, PrefabItem>();
+  const skillMap = new Map<string, Skill>();
+  const itemMap = new Map<string, Item>();
   const monsterMap = new Map<string, Monster>();
   const skillAreaMap = new Map<string, SkillArea>();
   const skillAreasMap = new Map<string, SkillArea[]>();
@@ -17,41 +22,43 @@ export const useGameDataStore = defineStore('gameData', () => {
     dataStatus.value = 'loading';
     try {
       const response = await axios.get('/data.json');
-      const gameJsonData = response.data as GameJsonData;
-      initData(gameJsonData);
+      const gameDataJson = response.data as GameDataJson;
+      initData(gameDataJson);
       dataStatus.value = 'finish';
     } catch (error) {
       console.error('Failed to load data:', error);
       dataStatus.value = 'fail';
     }
   };
-  function initData(data: GameJsonData) {
-    for (const item of data.items) {
-      itemMap.set(item.id, item);
+  function initData(data: GameDataJson) {
+    for (const skillJson of data.skills) {
+      skillMap.set(skillJson.id, Skill.fromJson(skillJson));
     }
-    for (const monster of data.monsters) {
-      monsterMap.set(monster.id, monster);
+    for (const itemJson of data.items) {
+      itemMap.set(itemJson.id, Item.fromJson(itemJson));
     }
-    for (const skillArea of data.skillAreas) {
-      skillAreaMap.set(skillArea.id, skillArea);
-      const existSkillAreas = skillAreasMap.get(skillArea.skill);
+    for (const monsterJson of data.monsters) {
+      monsterMap.set(monsterJson.id, Monster.fromJson(monsterJson));
+    }
+    for (const skillAreaJson of data.skillAreas) {
+      const skillArea = SkillArea.fromJson(skillAreaJson);
+      skillAreaMap.set(skillAreaJson.id, skillArea);
+      const existSkillAreas = skillAreasMap.get(skillAreaJson.skill);
       if (existSkillAreas) {
         existSkillAreas.push(skillArea);
         existSkillAreas.sort((a, b) => a.sort - b.sort);
       } else {
-        skillAreasMap.set(skillArea.skill, [skillArea]);
+        skillAreasMap.set(skillAreaJson.skill, [skillArea]);
       }
     }
-    for (const combatArea of data.combatAreas) {
-      combatAreaMap.set(combatArea.id, combatArea);
+    for (const combatAreaJson of data.combatAreas) {
+      combatAreaMap.set(combatAreaJson.id, CombatArea.fromJson(combatAreaJson));
     }
   }
-  //TODO
   function getSkillById(id: string): Skill | undefined {
-    console.log(id);
-    return undefined;
+    return skillMap.get(id);
   }
-  function getItemById(id: string): PrefabItem | undefined {
+  function getItemById(id: string): Item | undefined {
     return itemMap.get(id);
   }
   function getMonsterById(id: string): Monster | undefined {
@@ -69,7 +76,6 @@ export const useGameDataStore = defineStore('gameData', () => {
   function getSkillAreasBySkillId(skillId: string): SkillArea[] {
     return skillAreasMap.get(skillId) ?? []
   }
-  //TODO
   function getCombatAreas(): CombatArea[] {
     return Array.from(combatAreaMap.values());
   }

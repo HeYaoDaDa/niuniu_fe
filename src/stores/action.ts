@@ -108,7 +108,7 @@ export const useActionStore = defineStore('action', () => {
       const products = area.products;
       for (const product of products) {
         //TODO
-        inventoryStore.add(product.id, product.max);
+        inventoryStore.add(product.item, product.max);
       }
     } else {
       console.error(`Area ${action.target} not exist`);
