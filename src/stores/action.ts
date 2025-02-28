@@ -98,7 +98,7 @@ class ActionQueueItem {
   }
 
   toString(): string {
-    return `${this.area.skill.name} | ${this.area.name} [${this.amount}]`
+    return `${this.area.skill.getName()} | ${this.area.getName()} [${this.amount}]`
   }
 }
 

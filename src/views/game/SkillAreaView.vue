@@ -25,8 +25,8 @@ function addAction(area: SkillArea) {
 <template>
   <div class="area-list">
     <div class="area-item" v-for="area in areas" :key="area.id" @click="addAction(area)">
-      <p>{{ area.name }}</p>
-      <p>{{ area.describe }}</p>
+      <p>{{ area.getName() }}</p>
+      <p>{{ area.getDescription() }}</p>
     </div>
   </div>
 </template>

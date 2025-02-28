@@ -1,10 +1,10 @@
+import { useI18n } from "vue-i18n";
 import type { MonsterJson } from "../json/MonsterJson";
 import { Loot } from "./Loot";
 
 export class Monster {
     constructor(
         public id: string,
-        public name: string,
 
         public hp: number,
         public mp: number,
@@ -18,7 +18,6 @@ export class Monster {
         const loots = monsterJson.loots.map(Loot.fromJson);
         return new Monster(
             monsterJson.id,
-            monsterJson.name,
 
             monsterJson.hp,
             monsterJson.mp,
@@ -29,5 +28,11 @@ export class Monster {
         );
     }
 
-    //TODO compute loot funcation
+    getName(): string {
+        return useI18n().t(`monster.${this.id}.name`);
+    }
+
+    getDescription(): string {
+        return useI18n().t(`monster.${this.id}.description`);
+    }
 }

@@ -6,7 +6,7 @@ export class CombatArea {
     constructor(
         public id: string,
         public name: string,
-        public describe: string,
+        public description: string,
 
         public sort: number,
         public monsters: Monster[]
@@ -20,7 +20,7 @@ export class CombatArea {
         return new CombatArea(
             combatAreaJson.id,
             combatAreaJson.name,
-            combatAreaJson.describe,
+            combatAreaJson.description,
 
             combatAreaJson.sort,
             monsters,

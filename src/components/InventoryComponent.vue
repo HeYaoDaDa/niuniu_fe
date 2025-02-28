@@ -8,7 +8,7 @@ const inventoryStore = useInventoryStore();
 <template>
     <div class="inventory-list">
         <div class="inventory-item" v-for="item in inventoryStore.inventoryItems" :key="item.item.id">
-            <p>{{ item.item.name }}</p>
+            <p>{{ item.item.getName() }}</p>
             <p>{{ item.amount }}</p>
         </div>
     </div>

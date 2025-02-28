@@ -8,7 +8,7 @@ const gameDataStore = useGameDataStore();
     <div>
         <ul>
             <li v-for="skill in gameDataStore.allSkills" :key="skill.id">
-                <router-link :to="`/skill/${skill.id}`" active-class="active-link">{{ skill.name }}</router-link>
+                <router-link :to="`/skill/${skill.id}`" active-class="active-link">{{ skill.getName() }}</router-link>
             </li>
             <li>
                 <router-link to="/combat" active-class="active-link">Combat</router-link>

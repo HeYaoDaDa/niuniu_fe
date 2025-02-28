@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { useActionStore } from '@/stores/action';
 import ActionQueueComponent from './ActionQueueComponent.vue';
+import { useI18n } from 'vue-i18n'
 
 const actionStore = useActionStore();
+const { t } = useI18n() 
 </script>
 
 <template>
     <div class="header-left">
         <div class="game-title">
-            Wood Cow Idle
+            {{ t("gameName") }}
         </div>
         <ActionQueueComponent v-if="actionStore.isRunning" />
     </div>
