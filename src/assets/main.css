@@ -78,3 +78,47 @@ html {
     height: 100px;
     background-color: #bee7e9;
 }
+
+/* modal */
+.modal-box {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-background {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: .8;
+}
+
+.modal-content {
+    position: absolute;
+
+    border-radius: 4px;
+
+    min-width: 300px;
+    max-width: 98%;
+    min-height: 100px;
+    max-height: 98%;
+    padding: 10px;
+
+    background-color: white;
+    box-shadow: 0 0 4px 4px hsla(0, 0%, 81.6%, .2823529412);
+
+    font-size: 14px;
+    font-weight: 400;
+    overflow: auto;
+
+    display: flex;
+    flex-direction: column;
+}
