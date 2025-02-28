@@ -17,7 +17,7 @@ export default {
       name: "木头",
       description: "木头。",
     },
-    iron_wood: {
+    ironWood: {
       name: "铁木",
       description: "铁木。",
     },
@@ -39,7 +39,7 @@ export default {
       name: "森林",
       description: "森林。",
     },
-    iron_forest: {
+    ironForest: {
       name: "铁木林",
       description: "铁木林。",
     }

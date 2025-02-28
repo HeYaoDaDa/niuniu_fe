@@ -1,4 +1,3 @@
-import { useI18n } from "vue-i18n";
 import type { SkillJson } from "../json/SkillJson";
 
 export class Skill {
@@ -15,10 +14,10 @@ export class Skill {
     }
 
     getName(): string {
-        return useI18n().t(`skill.${this.id}.name`);
+        return `skill.${this.id}.name`;
     }
 
     getDescription(): string {
-        return useI18n().t(`skill.${this.id}.description`);
+        return `skill.${this.id}.description`;
     }
 }

@@ -97,8 +97,8 @@ class ActionQueueItem {
     return this.area.baseTime;
   }
 
-  toString(): string {
-    return `${this.area.skill.getName()} | ${this.area.getName()} [${this.amount}]`
+  toShow(t: (v: string) => string): string {
+    return `${t(this.area.skill.getName())} | ${t(this.area.getName())} [${this.amount}]`
   }
 }
 

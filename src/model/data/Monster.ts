@@ -1,4 +1,3 @@
-import { useI18n } from "vue-i18n";
 import type { MonsterJson } from "../json/MonsterJson";
 import { Loot } from "./Loot";
 
@@ -29,10 +28,10 @@ export class Monster {
     }
 
     getName(): string {
-        return useI18n().t(`monster.${this.id}.name`);
+        return `monster.${this.id}.name`;
     }
 
     getDescription(): string {
-        return useI18n().t(`monster.${this.id}.description`);
+        return `monster.${this.id}.description`;
     }
 }
