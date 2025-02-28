@@ -2,47 +2,34 @@
     "skills": [
         {
             "id": "mining",
-            "name": "Mining",
-            "description": "Mining.",
             "sort": 0
         },
         {
             "id": "woodcutting",
-            "name": "Woodcutting",
-            "description": "Woodcutting.",
             "sort": 1
         }
     ],
     "items": [
         {
             "id": "sand",
-            "name": "Sand",
-            "description": "Sand.",
             "sort": 0
         },
         {
             "id": "mud",
-            "name": "Mud",
-            "description": "Mud.",
             "sort": 1
         },
         {
             "id": "wood",
-            "name": "Wood",
-            "description": "Wood.",
             "sort": 100
         },
         {
-            "id": "iron_wood",
-            "name": "Wood",
-            "description": "Wood.",
+            "id": "ironWood",
             "sort": 101
         }
     ],
     "monsters": [
         {
             "id": "snake",
-            "name": "Snake",
             "hp": 100,
             "mp": 100,
             "attack": 5,
@@ -61,8 +48,6 @@
         {
             "id": "beach",
             "skill": "mining",
-            "name": "Beach",
-            "description": "Get beach.",
             "sort": 0,
             "baseTime": 3000,
             "products": [
@@ -77,8 +62,6 @@
         {
             "id": "earth",
             "skill": "mining",
-            "name": "Earth",
-            "description": "Get mud.",
             "sort": 1,
             "baseTime": 6000,
             "products": [
@@ -93,8 +76,6 @@
         {
             "id": "forest",
             "skill": "woodcutting",
-            "name": "Forest",
-            "description": "Get wood.",
             "sort": 100,
             "baseTime": 3500,
             "products": [
@@ -107,15 +88,13 @@
             ]
         },
         {
-            "id": "iron_forest",
+            "id": "ironForest",
             "skill": "woodcutting",
-            "name": "Iron Forest",
-            "description": "Get iron wood.",
             "sort": 101,
             "baseTime": 7000,
             "products": [
                 {
-                    "id": "iron_wood",
+                    "id": "ironWood",
                     "percentage": 100,
                     "min": 1,
                     "max": 3
@@ -126,8 +105,6 @@
     "combatAreas": [
         {
             "id": "snake",
-            "name": "Snake",
-            "description": "Snake!",
             "sort": 0,
             "monsters": [
                 "snake"
