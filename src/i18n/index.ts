@@ -1,7 +1,7 @@
-import enUS from './en-US';
-import zhCN from './zh-CN';
+import enUS from './en';
+import zhCN from './zh';
 
 export default {
-  'en-US': enUS,
-  'zh-CN': zhCN
+  'en': enUS,
+  'zh': zhCN
 };

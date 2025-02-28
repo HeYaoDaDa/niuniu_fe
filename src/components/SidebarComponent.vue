@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { useGameDataStore } from '@/stores/gameData';
+import { useSettingsStore } from '@/stores/settings';
+import { computed } from 'vue';
 
 const gameDataStore = useGameDataStore();
+const settingsStore = useSettingsStore();
+const selectedLocale = computed({
+    get: () => settingsStore.locale,
+    set: (value) => settingsStore.setLocale(value),
+});
 </script>
 
 <template>
@@ -12,6 +19,13 @@ const gameDataStore = useGameDataStore();
             </li>
             <li>
                 <router-link to="/combat" active-class="active-link">Combat</router-link>
+            </li>
+            <li>
+                <select v-model="selectedLocale">
+                    <option v-for="[code, language] in settingsStore.localeOptions" :key="code" :value="code">
+                        {{ language }}
+                    </option>
+                </select>
             </li>
         </ul>
     </div>
