@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './styles/app.scss'
 import messages from '@/i18n';
 
 import { createApp } from 'vue'
