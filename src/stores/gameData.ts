@@ -5,7 +5,6 @@ import { Skill } from '@/model/data/Skill';
 import { Item } from '@/model/data/Item';
 import { Monster } from '@/model/data/Monster';
 import { SkillArea } from '@/model/data/SkillArea';
-import { CombatArea } from '@/model/data/CombatArea';
 import type { GameDataJson } from '@/model/json/GameDataJson';
 
 export const useGameDataStore = defineStore('gameData', () => {
@@ -14,12 +13,10 @@ export const useGameDataStore = defineStore('gameData', () => {
   const monsterMap = new Map<string, Monster>();
   const skillAreaMap = new Map<string, SkillArea>();
   const skillAreasMap = new Map<string, SkillArea[]>();
-  const combatAreaMap = new Map<string, CombatArea>();
 
   const dataStatus = ref('none' as 'none' | 'loading' | 'finish' | 'fail');
 
   const allSkills = computed(() => Array.from(skillMap.values()).sort((a, b) => a.sort - b.sort));
-  const allCombatArea = computed(() => Array.from(combatAreaMap.values()).sort((a, b) => a.sort - b.sort));
 
   async function loadData() {
     dataStatus.value = 'loading';
@@ -54,9 +51,6 @@ export const useGameDataStore = defineStore('gameData', () => {
         skillAreasMap.set(skillAreaJson.skill, [skillArea]);
       }
     }
-    for (const combatAreaJson of data.combatAreas) {
-      combatAreaMap.set(combatAreaJson.id, CombatArea.fromJson(combatAreaJson));
-    }
   }
   function getSkillById(id: string): Skill | undefined {
     return skillMap.get(id);
@@ -73,9 +67,6 @@ export const useGameDataStore = defineStore('gameData', () => {
   function getSkillAreaById(id: string): SkillArea | undefined {
     return skillAreaMap.get(id);
   }
-  function getCombatAreaById(id: string): CombatArea | undefined {
-    return combatAreaMap.get(id);
-  }
   function getSkillAreasBySkillId(skillId: string): SkillArea[] {
     return skillAreasMap.get(skillId) ?? []
   }
@@ -84,7 +75,6 @@ export const useGameDataStore = defineStore('gameData', () => {
     dataStatus,
 
     allSkills,
-    allCombatArea,
 
     loadData,
     getSkillById,
@@ -92,7 +82,6 @@ export const useGameDataStore = defineStore('gameData', () => {
     getMonsterById,
     getMonstersByIds,
     getSkillAreaById,
-    getCombatAreaById,
     getSkillAreasBySkillId,
   }
 });

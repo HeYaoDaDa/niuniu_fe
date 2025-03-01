@@ -23,10 +23,7 @@ const selectedLocale = computed({
             <li v-for="skill in gameDataStore.allSkills" :key="skill.id">
                 <router-link :to="`/skill/${skill.id}`" active-class="active-link">{{ t(skill.getName()) + ' ' +
                     (characterStore.getSkillById(skill.id)?.getLevel() ?? 'invalid')
-                }}</router-link>
-            </li>
-            <li>
-                <router-link to="/combat" active-class="active-link">Combat</router-link>
+                    }}</router-link>
             </li>
             <li>
                 <select v-model="selectedLocale">

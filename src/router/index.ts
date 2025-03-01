@@ -5,7 +5,6 @@ import LoginView from '@/views/LoginView.vue'
 import SkillAreaView from '@/views/game/SkillAreaView.vue'
 import LoadingView from '@/views/LoadingView.vue'
 import { useGameDataStore } from '@/stores/gameData'
-import CombatView from '@/views/game/CombatView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,11 +20,6 @@ const router = createRouter({
           path: 'skill/:id',
           name: 'skill',
           component: SkillAreaView
-        },
-        {
-          path: 'combat',
-          name: 'combat',
-          component: CombatView
         }
       ]
     },

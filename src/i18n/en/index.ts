@@ -42,11 +42,5 @@ export default {
       name: "Iron Forest",
       description: "Iron Forest.",
     }
-  },
-  combatArea: {
-    snake: {
-      name: "Snake",
-      description: "Snake!",
-    },
   }
 };

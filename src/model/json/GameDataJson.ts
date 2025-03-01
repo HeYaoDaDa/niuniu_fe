@@ -1,4 +1,3 @@
-import type { CombatAreaJson } from "./CombatAreaJson";
 import type { ItemJson } from "./ItemJson";
 import type { MonsterJson } from "./MonsterJson";
 import type { SkillAreaJson } from "./SkillAreaJson";
@@ -9,5 +8,4 @@ export interface GameDataJson {
     items: ItemJson[];
     monsters: MonsterJson[];
     skillAreas: SkillAreaJson[];
-    combatAreas: CombatAreaJson[];
 }

@@ -43,11 +43,5 @@ export default {
       name: "铁木林",
       description: "铁木林。",
     }
-  },
-  combatArea: {
-    snake: {
-      name: "蛇",
-      description: "蛇!",
-    },
   }
 };
