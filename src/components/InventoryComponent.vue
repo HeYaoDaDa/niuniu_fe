@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useInventoryStore } from '@/stores/inventory';
+import { Tooltip } from 'floating-vue';
 import { useI18n } from 'vue-i18n';
 
 
@@ -9,9 +10,14 @@ const { t } = useI18n()
 
 <template>
     <div class="inventory-list">
-        <div class="inventory-item" v-for="item in inventoryStore.inventoryItems" :key="item.item.id">
-            <p>{{ t(item.item.getName()) }}</p>
-            <p>{{ item.amount }}</p>
-        </div>
+        <Tooltip v-for="inventoryItem in inventoryStore.inventoryItems" :key="inventoryItem.item.id">
+            <div class="inventory-item">
+                <p>{{ t(inventoryItem.item.getName()) }}</p>
+                <p>{{ inventoryItem.amount }}</p>
+            </div>
+            <template #popper>
+                {{ t(inventoryItem.item.getDescription()) }}
+            </template>
+        </Tooltip>
     </div>
 </template>

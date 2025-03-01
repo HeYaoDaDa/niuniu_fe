@@ -6,6 +6,8 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import App from './App.vue'
 import router from './router'
 import { createI18n } from 'vue-i18n'
+import FloatingVue from 'floating-vue'
+import 'floating-vue/dist/style.css'
 
 const app = createApp(App)
 
@@ -24,5 +26,7 @@ pinia.use(piniaPluginPersistedstate);
 app.use(pinia)
 
 app.use(router)
+
+app.use(FloatingVue)
 
 app.mount('#app')
