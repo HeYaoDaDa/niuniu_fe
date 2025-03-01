@@ -2,6 +2,7 @@
 import { useCharacterStore } from '@/stores/character';
 import { useGameDataStore } from '@/stores/gameData';
 import { useSettingsStore } from '@/stores/settings';
+import { Tooltip } from 'floating-vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -20,11 +21,17 @@ const selectedLocale = computed({
 <template>
     <div>
         <ul>
-            <li v-for="skill in gameDataStore.allSkills" :key="skill.id">
-                <router-link :to="`/skill/${skill.id}`" active-class="active-link">{{ t(skill.getName()) + ' ' +
-                    (characterStore.getSkillById(skill.id)?.getLevel() ?? 'invalid')
+            <Tooltip v-for="skill in gameDataStore.allSkills" :key="skill.id">
+
+                <li>
+                    <router-link :to="`/skill/${skill.id}`" active-class="active-link">{{ t(skill.getName()) + ' ' +
+                        (characterStore.getSkillById(skill.id)?.value.level ?? 'invalid')
                     }}</router-link>
-            </li>
+                </li>
+                <template #popper>
+                    {{ characterStore.getSkillById(skill.id)?.value.xp }}
+                </template>
+            </Tooltip>
             <li>
                 <select v-model="selectedLocale">
                     <option v-for="[code, language] in settingsStore.localeOptions" :key="code" :value="code">

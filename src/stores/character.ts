@@ -1,48 +1,49 @@
 import { Skill } from "@/model/data/Skill";
 import { defineStore } from "pinia";
-import { reactive, type ShallowReactive } from "vue";
 import { useGameDataStore } from "./gameData";
-import { useNotificationStore } from "./notification";
-import { useI18n } from "vue-i18n";
+import { computed, ref } from "vue";
 
 export const useCharacterStore = defineStore('character', () => {
-    const gameDataStore = useGameDataStore();
-    const notificationStore = useNotificationStore();
-    const { t } = useI18n();
+    const gameData = useGameDataStore();
 
+    const skillData = new Map(gameData.allSkills.map((it) => [it.id, ref(0)]));
 
-    const skillMap = reactive(new Map<string, CharacterSkill>(gameDataStore.allSkills.map(skill => [skill.id, new CharacterSkill(skill)])));
+    const skillMap = new Map(
+        Array.from(skillData.entries()).map(([id, xp]) =>
+            [
+                id,
+                computed(() => new CharacterSkill(gameData.getSkillById(id)!, xp.value))
+            ]
+        )
+    )
 
-    function getSkillById(id: string): CharacterSkill | undefined {
-        return skillMap.get(id);
+    function getSkillById(id: string) {
+        return skillMap.get(id)
     }
 
-    function addXp(id: string, xp: number) {
-        const skill = getSkillById(id);
-        if (skill) {
-            const oldLevel = skill.getLevel();
-            skill.xp += xp;
-            if (skill.getLevel() > oldLevel) {
-                notificationStore.notification('info', t(skill.skill.getName()) + ' to ' + skill.getLevel())
+    class CharacterSkill {
+        id: string;
+        level: number;
+
+        constructor(
+            public skill: Skill,
+            public xp: number,
+        ) {
+            this.id = skill.id;
+            this.level = Math.floor(this.xp / 100);
+        }
+
+        addXp(xp: number) {
+            const skillXp = skillData.get(this.id);
+            if (skillXp) {
+                skillXp.value += xp;
+            } else {
+                console.error(`Skill ${this.id} not find`);
             }
-        } else {
-            console.error(`Skill ${id} not find`);
         }
     }
 
     return {
-        getSkillById,
-
-        addXp
+        getSkillById
     }
 });
-
-class CharacterSkill {
-    xp: number = 0;
-
-    constructor(public skill: ShallowReactive<Skill>) { }
-
-    getLevel(): number {
-        return Math.floor(this.xp / 100);
-    }
-}
