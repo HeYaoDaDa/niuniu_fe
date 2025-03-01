@@ -5,9 +5,11 @@ import type { SkillArea } from '@/model/data/SkillArea';
 import type { Amount } from '@/model/Amount';
 import type { Item } from '@/model/data/Item';
 import MersenneTwister from 'mersenne-twister';
+import { useCharacterStore } from './character';
 
 export const useActionStore = defineStore('action', () => {
   const inventoryStore = useInventoryStore();
+  const characterStore = useCharacterStore();
 
   const actionQueue = reactive([] as ActionQueueItem[]);
   const runningAction = shallowRef(undefined as RunningAction | undefined);
@@ -52,8 +54,11 @@ export const useActionStore = defineStore('action', () => {
     if (runningAction.value) {
       const loots = runningAction.value.calculateRewards();
       const amount = runningAction.value.action.amount;
+      const skillId = runningAction.value.action.area.skill.id;
+      const xp = runningAction.value.action.area.xp;
       runningAction.value = undefined;
       inventoryStore.adds(loots);
+      characterStore.addXp(skillId, xp);
       if (amount.isInfinite) {
         startAction();
       } else {

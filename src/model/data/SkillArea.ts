@@ -10,6 +10,7 @@ export class SkillArea {
 
         public sort: number,
         public baseTime: number,
+        public xp: number,
 
         public products: Loot[]
     ) { }
@@ -27,6 +28,7 @@ export class SkillArea {
 
             skillAreaJson.sort,
             skillAreaJson.baseTime,
+            skillAreaJson.xp,
 
             products
         );

@@ -6,5 +6,6 @@ export interface SkillAreaJson {
 
     sort: number;
     baseTime: number;
+    xp: number;
     products: LootJson[];
 }

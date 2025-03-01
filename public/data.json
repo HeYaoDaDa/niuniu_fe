@@ -50,6 +50,7 @@
             "skill": "mining",
             "sort": 0,
             "baseTime": 3000,
+            "xp": 3,
             "products": [
                 {
                     "id": "sand",
@@ -64,6 +65,7 @@
             "skill": "mining",
             "sort": 1,
             "baseTime": 6000,
+            "xp": 5,
             "products": [
                 {
                     "id": "mud",
@@ -78,6 +80,7 @@
             "skill": "woodcutting",
             "sort": 100,
             "baseTime": 3500,
+            "xp": 3,
             "products": [
                 {
                     "id": "wood",
@@ -92,6 +95,7 @@
             "skill": "woodcutting",
             "sort": 101,
             "baseTime": 7000,
+            "xp": 5,
             "products": [
                 {
                     "id": "ironWood",
