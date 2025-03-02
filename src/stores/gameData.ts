@@ -3,14 +3,12 @@ import { defineStore } from 'pinia'
 import axios from 'axios';
 import { Skill } from '@/model/data/Skill';
 import { Item } from '@/model/data/Item';
-import { Monster } from '@/model/data/Monster';
 import { SkillArea } from '@/model/data/SkillArea';
 import type { GameDataJson } from '@/model/json/GameDataJson';
 
 export const useGameDataStore = defineStore('gameData', () => {
   const skillMap = new Map<string, Skill>();
   const itemMap = new Map<string, Item>();
-  const monsterMap = new Map<string, Monster>();
   const skillAreaMap = new Map<string, SkillArea>();
   const skillAreasMap = new Map<string, SkillArea[]>();
 
@@ -37,9 +35,6 @@ export const useGameDataStore = defineStore('gameData', () => {
     for (const itemJson of data.items) {
       itemMap.set(itemJson.id, Item.fromJson(itemJson));
     }
-    for (const monsterJson of data.monsters) {
-      monsterMap.set(monsterJson.id, Monster.fromJson(monsterJson));
-    }
     for (const skillAreaJson of data.skillAreas) {
       const skillArea = SkillArea.fromJson(skillAreaJson);
       skillAreaMap.set(skillAreaJson.id, skillArea);
@@ -58,12 +53,6 @@ export const useGameDataStore = defineStore('gameData', () => {
   function getItemById(id: string): Item | undefined {
     return itemMap.get(id);
   }
-  function getMonsterById(id: string): Monster | undefined {
-    return monsterMap.get(id);
-  }
-  function getMonstersByIds(ids: string[]): Monster[] {
-    return ids.map(id => monsterMap.get(id)).filter(value => value !== undefined);
-  }
   function getSkillAreaById(id: string): SkillArea | undefined {
     return skillAreaMap.get(id);
   }
@@ -79,8 +68,6 @@ export const useGameDataStore = defineStore('gameData', () => {
     loadData,
     getSkillById,
     getItemById,
-    getMonsterById,
-    getMonstersByIds,
     getSkillAreaById,
     getSkillAreasBySkillId,
   }
