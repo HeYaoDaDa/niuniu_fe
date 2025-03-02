@@ -2,10 +2,9 @@
 import { useActionStore } from '@/stores/action';
 import ActionQueueComponent from './ActionQueueComponent.vue';
 import { useI18n } from 'vue-i18n'
-import { useNotificationStore } from '@/stores/notification';
+import NotificationBar from './NotificationBar.vue';
 
 const actionStore = useActionStore();
-const notificationStore = useNotificationStore();
 const { t } = useI18n() 
 </script>
 
@@ -19,11 +18,7 @@ const { t } = useI18n()
     <div class="header-right">
         <div>INFO</div>
     </div>
-    <div class="notifications">
-        <div class="notification" v-for="notification, index in notificationStore.notifications" :key="index"
-            @click.stop.prevent="notificationStore.closeNotification(index)">{{
-                notification.content }}</div>
-    </div>
+    <NotificationBar />
 </template>
 
 <style lang="css" scoped>
@@ -52,19 +47,5 @@ const { t } = useI18n()
 
     font-weight: bold;
     font-size: 24px;
-}
-
-.notifications {
-    z-index: 2;
-    position: fixed;
-    top: 0;
-    right: 0;
-    margin: 8px;
-    overflow: hidden;
-    user-select: none;
-}
-
-.notification {
-    background-color: cadetblue;
 }
 </style>
