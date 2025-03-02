@@ -93,6 +93,11 @@ class ActionQueueItem {
   }
 
   calculateDuration(): number {
+    const characterStore = useCharacterStore()
+    const skill = characterStore.getSkillById(this.area.skill.id);
+    if (skill) {
+      return this.area.baseTime * (1 - 0.009 * skill.level.value)
+    }
     return this.area.baseTime;
   }
 
