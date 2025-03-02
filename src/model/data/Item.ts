@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import type { ItemJson } from "../json/ItemJson";
 
 export class Item {
@@ -14,10 +15,10 @@ export class Item {
     }
 
     getName(): string {
-        return `item.${this.id}.name`;
+        return i18n.global.t(`item.${this.id}.name`);
     }
 
     getDescription(): string {
-        return `item.${this.id}.description`;
+        return i18n.global.t(`item.${this.id}.description`);
     }
 }

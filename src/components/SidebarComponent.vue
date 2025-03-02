@@ -3,11 +3,9 @@ import { useCharacterStore } from '@/stores/character';
 import { useSettingsStore } from '@/stores/settings';
 import { Tooltip } from 'floating-vue';
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 const settingsStore = useSettingsStore();
 const characterStore = useCharacterStore();
-const { t } = useI18n();
 
 const selectedLocale = computed({
     get: () => settingsStore.locale,
@@ -23,9 +21,9 @@ const selectedLocale = computed({
 
                 <li>
                     <router-link :to="`/skill/${characterSkill.id}`" active-class="active-link">{{
-                        t(characterSkill.skill.getName()) + ' ' +
+                        characterSkill.skill.getName() + ' ' +
                         (characterSkill.level)
-                    }}</router-link>
+                        }}</router-link>
                 </li>
                 <template #popper>
                     {{ characterSkill.xp }}

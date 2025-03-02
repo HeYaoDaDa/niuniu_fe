@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import type { SkillJson } from "../json/SkillJson";
 
 export class Skill {
@@ -14,10 +15,10 @@ export class Skill {
     }
 
     getName(): string {
-        return `skill.${this.id}.name`;
+        return i18n.global.t(`skill.${this.id}.name`);
     }
 
     getDescription(): string {
-        return `skill.${this.id}.description`;
+        return i18n.global.t(`skill.${this.id}.description`);
     }
 }

@@ -2,6 +2,7 @@ import { useGameDataStore } from "@/stores/gameData";
 import type { SkillAreaJson } from "../json/SkillAreaJson";
 import { Loot } from "./Loot";
 import type { Skill } from "./Skill";
+import i18n from "@/i18n";
 
 export class SkillArea {
     constructor(
@@ -35,11 +36,11 @@ export class SkillArea {
     }
 
     getName(): string {
-        return `skillArea.${this.id}.name`;
+        return i18n.global.t(`skillArea.${this.id}.name`);
     }
 
     getDescription(): string {
-        return `skillArea.${this.id}.description`;
+        return i18n.global.t(`skillArea.${this.id}.description`);
     }
 
     //TODO compute loot funcation

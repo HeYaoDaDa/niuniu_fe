@@ -6,7 +6,6 @@ import { useActionStore } from '@/stores/action';
 import { useGameDataStore } from '@/stores/gameData';
 import { useNotificationStore } from '@/stores/notification';
 import { computed, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -18,7 +17,6 @@ onBeforeRouteUpdate(async (to) => {
 const gameDataStore = useGameDataStore();
 const actionStore = useActionStore();
 const notificationStore = useNotificationStore();
-const { t } = useI18n()
 
 const openArea = ref(undefined as SkillArea | undefined);
 const amount = ref('∞')
@@ -35,7 +33,7 @@ function closeModal() {
 }
 function addAction(area: SkillArea) {
   actionStore.addAction(area, Amount.from(amount.value));
-  notificationStore.notification('info', t(area.skill.getName()) + ' | ' + t(area.getName()));
+  notificationStore.notification('info', area.skill.getName() + ' | ' + area.getName());
   openArea.value = undefined;
 }
 </script>
@@ -43,16 +41,16 @@ function addAction(area: SkillArea) {
 <template>
   <div class="area-list">
     <div class="area-item" v-for="area in areas" :key="area.id" @click="openModal(area)">
-      <p>{{ t(area.getName()) }}</p>
-      <p>{{ t(area.getDescription()) }}</p>
+      <p>{{ area.getName() }}</p>
+      <p>{{ area.getDescription() }}</p>
     </div>
     <ModalBox v-if="openArea" @close="closeModal">
-      <p>{{ t(openArea.getName()) }}</p>
-      <p>{{ t(openArea.skill.getName()) }}</p>
-      <p>{{ t(openArea.getDescription()) }}</p>
+      <p>{{ openArea.getName() }}</p>
+      <p>{{ openArea.skill.getName() }}</p>
+      <p>{{ openArea.getDescription() }}</p>
       <p>{{ openArea.baseTime / 1000 }}s</p>
       <div v-for="loot, index in openArea.products" :key="index">
-        {{ loot.percentage }}% {{ t(loot.item.getName()) }}: {{ loot.min }}-{{ loot.max }}
+        {{ loot.percentage }}% {{ loot.item.getName() }}: {{ loot.min }}-{{ loot.max }}
       </div>
       <div>
         <input type="text" v-model="amount" />

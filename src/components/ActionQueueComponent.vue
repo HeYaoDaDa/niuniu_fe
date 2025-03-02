@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { useActionStore } from '@/stores/action';
 import { ref, onMounted, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 const actionStore = useActionStore();
-const { t } = useI18n()
 
 const progress = ref(0);
 
@@ -41,7 +39,7 @@ onMounted(() => {
 
 <template>
     <div class="action-div">
-        <div>{{ actionStore.runningAction?.action.toShow(t) }}]
+        <div>{{ actionStore.runningAction?.action.toShow() }}]
         </div>
         <div class="action-bottom">
             <div class="progress-container">
@@ -52,7 +50,7 @@ onMounted(() => {
         </div>
         <div v-if="peddingActionQueue.length > 0">
             <div v-for="(action, index) in peddingActionQueue" :key="index">
-                <button @click="actionStore.removeAction(index + 1)">Remove {{ action.toShow(t) }}</button>
+                <button @click="actionStore.removeAction(index + 1)">Remove {{ action.toShow() }}</button>
             </div>
         </div>
     </div>
