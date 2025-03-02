@@ -1,26 +1,9 @@
-import { SkillData } from "@/model/data/SkillData";
 import { defineStore } from "pinia";
 import { useGameDataStore } from "./gameData";
-import { computed, readonly, ref, type ComputedRef, type Ref } from "vue";
+import { readonly, ref } from "vue";
+import { Skill } from "@/model/game/Skill";
 
 export const useCharacterStore = defineStore('character', () => {
-    class CharacterSkill {
-        id: string;
-        level: ComputedRef<number>;
-
-        constructor(
-            public skill: SkillData,
-            public xp: Ref<number>,
-        ) {
-            this.id = skill.id;
-            this.level = computed(() => Math.floor(this.xp.value / 100));
-        }
-
-        addXp(xp: number) {
-            addXp(this.id, xp);
-        }
-    }
-
     const gameData = useGameDataStore();
 
     const skillData = new Map(gameData.allSkills.map((it) => [it.id, { xp: ref(0), skill: it }]));
@@ -29,7 +12,7 @@ export const useCharacterStore = defineStore('character', () => {
         Array.from(skillData.entries()).map(([id, { xp, skill }]) =>
             [
                 id,
-                new CharacterSkill(skill, readonly(xp))
+                new Skill(skill, readonly(xp))
             ]
         )
     )

@@ -12,8 +12,8 @@ const characterStore = useCharacterStore();
             <Tooltip v-for="characterSkill in characterStore.allSkills" :key="characterSkill.id">
                 <li>
                     <router-link :to="`/skill/${characterSkill.id}`" active-class="active-link">{{
-                        characterSkill.skill.getName() + ' ' + (characterSkill.level)
-                        }}</router-link>
+                        characterSkill.data.getName() + ' ' + (characterSkill.level)
+                    }}</router-link>
                 </li>
                 <template #popper>
                     {{ characterSkill.xp }}
