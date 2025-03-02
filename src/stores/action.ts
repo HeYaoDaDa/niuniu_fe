@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, reactive, shallowReactive, shallowRef, type ShallowReactive } from 'vue';
+import { computed, reactive, shallowRef } from 'vue';
 import { useInventoryStore } from './inventory';
 import type { SkillArea } from '@/model/data/SkillArea';
 import type { Amount } from '@/model/Amount';
@@ -86,10 +86,7 @@ export const useActionStore = defineStore('action', () => {
 })
 
 class ActionQueueItem {
-  area: ShallowReactive<SkillArea>;
-
-  constructor(area: SkillArea, public amount: Amount) {
-    this.area = shallowReactive(area);
+  constructor(public area: SkillArea, public amount: Amount) {
   }
 
   start(completeAction: () => void): RunningAction {

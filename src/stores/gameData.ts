@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, markRaw, ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios';
 import { Skill } from '@/model/data/Skill';
@@ -30,13 +30,13 @@ export const useGameDataStore = defineStore('gameData', () => {
   };
   function initData(data: GameDataJson) {
     for (const skillJson of data.skills) {
-      skillMap.set(skillJson.id, Skill.fromJson(skillJson));
+      skillMap.set(skillJson.id, markRaw(Skill.fromJson(skillJson)));
     }
     for (const itemJson of data.items) {
-      itemMap.set(itemJson.id, Item.fromJson(itemJson));
+      itemMap.set(itemJson.id, markRaw(Item.fromJson(itemJson)));
     }
     for (const skillAreaJson of data.skillAreas) {
-      const skillArea = SkillArea.fromJson(skillAreaJson);
+      const skillArea = markRaw(SkillArea.fromJson(skillAreaJson));
       skillAreaMap.set(skillAreaJson.id, skillArea);
       const existSkillAreas = skillAreasMap.get(skillAreaJson.skill);
       if (existSkillAreas) {
