@@ -58,7 +58,7 @@ export const useActionStore = defineStore('action', () => {
       const xp = runningAction.value.action.area.xp;
       runningAction.value = undefined;
       inventoryStore.adds(loots);
-      characterStore.getSkillById(skillId)?.value.addXp(xp);
+      characterStore.getSkillById(skillId)?.addXp(xp);
       if (amount.isInfinite) {
         startAction();
       } else {
@@ -98,7 +98,6 @@ class ActionQueueItem {
   }
 
   calculateDuration(): number {
-    //TODO
     return this.area.baseTime;
   }
 

@@ -50,7 +50,7 @@
             "skill": "mining",
             "sort": 0,
             "baseTime": 3000,
-            "xp": 3,
+            "xp": 40,
             "products": [
                 {
                     "id": "sand",

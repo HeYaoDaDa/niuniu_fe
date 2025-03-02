@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { useCharacterStore } from '@/stores/character';
-import { useGameDataStore } from '@/stores/gameData';
 import { useSettingsStore } from '@/stores/settings';
 import { Tooltip } from 'floating-vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const gameDataStore = useGameDataStore();
 const settingsStore = useSettingsStore();
 const characterStore = useCharacterStore();
 const { t } = useI18n();
@@ -21,15 +19,16 @@ const selectedLocale = computed({
 <template>
     <div>
         <ul>
-            <Tooltip v-for="skill in gameDataStore.allSkills" :key="skill.id">
+            <Tooltip v-for="characterSkill in characterStore.allSkills" :key="characterSkill.id">
 
                 <li>
-                    <router-link :to="`/skill/${skill.id}`" active-class="active-link">{{ t(skill.getName()) + ' ' +
-                        (characterStore.getSkillById(skill.id)?.value.level ?? 'invalid')
+                    <router-link :to="`/skill/${characterSkill.id}`" active-class="active-link">{{
+                        t(characterSkill.skill.getName()) + ' ' +
+                        (characterSkill.level)
                     }}</router-link>
                 </li>
                 <template #popper>
-                    {{ characterStore.getSkillById(skill.id)?.value.xp }}
+                    {{ characterSkill.xp }}
                 </template>
             </Tooltip>
             <li>
