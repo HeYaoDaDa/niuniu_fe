@@ -5,6 +5,7 @@ import LoginView from '@/views/LoginView.vue'
 import SkillAreaView from '@/views/game/SkillAreaView.vue'
 import LoadingView from '@/views/LoadingView.vue'
 import { useGameDataStore } from '@/stores/gameData'
+import ErrorNotFound from '@/views/ErrorNotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,10 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+    },
+    {
+      path: '/:catchAll(.*)*',
+      component: ErrorNotFound,
     },
   ],
 })
