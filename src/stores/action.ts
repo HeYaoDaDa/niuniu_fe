@@ -15,6 +15,13 @@ export const useActionStore = defineStore('action', () => {
   const runningAction = shallowRef(undefined as RunningAction | undefined);
 
   const isRunning = computed(() => actionQueue.length > 0);
+  const queuedActions = computed(() => {
+    if (actionQueue.length > 1) {
+      return actionQueue.slice(1);
+    } else {
+      return [];
+    }
+  });
 
   function addAction(area: SkillArea, amount: Amount) {
     actionQueue.push(new ActionQueueItem(area, amount));
@@ -79,6 +86,7 @@ export const useActionStore = defineStore('action', () => {
     runningAction,
 
     isRunning,
+    queuedActions,
 
     addAction,
     removeAction

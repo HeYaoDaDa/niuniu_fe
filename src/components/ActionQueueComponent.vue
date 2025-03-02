@@ -13,13 +13,6 @@ const actionDurationshow = computed(() => {
         return 'invalid';
     }
 });
-const peddingActionQueue = computed(() => {
-    if (actionStore.actionQueue.length > 1) {
-        return actionStore.actionQueue.slice(1);
-    } else {
-        return [];
-    }
-})
 
 onMounted(() => {
     const animate = (timestamp: number) => {
@@ -48,8 +41,8 @@ onMounted(() => {
             </div>
             <button @click="actionStore.removeAction(0)">Stop</button>
         </div>
-        <div v-if="peddingActionQueue.length > 0">
-            <div v-for="(action, index) in peddingActionQueue" :key="index">
+        <div v-if="actionStore.queuedActions.length > 0">
+            <div v-for="(action, index) in actionStore.queuedActions" :key="index">
                 <button @click="actionStore.removeAction(index + 1)">Remove {{ action.toShow() }}</button>
             </div>
         </div>
