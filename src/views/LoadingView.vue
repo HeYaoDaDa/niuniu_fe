@@ -12,7 +12,7 @@ watchEffect(() => {
   } else if ('finish' === gameDataStore.dataStatus) {
     router.replace('/skill/mining');
   } else {
-    //TODO redirect to error page
+    router.replace('/error');
   }
 });
 </script>
