@@ -11,7 +11,7 @@ watchEffect(() => {
     gameDataStore.loadData();
   } else if ('finish' === gameDataStore.dataStatus) {
     router.replace('/skill/mining');
-  } else {
+  } else if ('fail' === gameDataStore.dataStatus) {
     router.replace('/error');
   }
 });

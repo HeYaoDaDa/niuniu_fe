@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, reactive, shallowRef } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useInventoryStore } from './inventory';
 import type { SkillArea } from '@/model/data/SkillArea';
 import type { Amount } from '@/model/Amount';
@@ -12,16 +12,43 @@ export const useActionStore = defineStore('action', () => {
   const characterStore = useCharacterStore();
 
   const actionQueue = reactive([] as ActionQueueItem[]);
-  const runningAction = shallowRef(undefined as RunningAction | undefined);
+  const runningAction = ref(undefined as RunningAction | undefined);
 
   const isRunning = computed(() => actionQueue.length > 0);
-  const queuedActions = computed(() => {
-    if (actionQueue.length > 1) {
-      return actionQueue.slice(1);
+  const queuedActions = computed(() => actionQueue.length > 1 ? actionQueue.slice(1) : []);
+
+  function startAction() {
+    if (isRunning.value && !runningAction.value) {
+      const duration = actionQueue[0].calculateDuration()
+      runningAction.value = new RunningAction(actionQueue[0], performance.now(), duration, setTimeout(completeAction, duration));
     } else {
-      return [];
+      console.error(`Start action but isRunning is ${isRunning.value}, have runningAction is ${runningAction.value !== undefined}`);
     }
-  });
+  }
+
+  function completeAction() {
+    if (runningAction.value) {
+      const prevAction = runningAction.value;
+      runningAction.value = undefined;
+
+      inventoryStore.adds(prevAction.calculateRewards());
+      characterStore.getSkillById(prevAction.action.area.skill.id)?.addXp(prevAction.action.area.xp);
+
+      const amount = prevAction.action.amount;
+      if (amount.isInfinite) {
+        startAction();
+      } else {
+        if (amount.amount > 1) {
+          amount.amount -= 1;
+          startAction();
+        } else {
+          removeAction(0);
+        }
+      }
+    } else {
+      console.error('Complete action not exist');
+    }
+  }
 
   function addAction(area: SkillArea, amount: Amount) {
     actionQueue.push(new ActionQueueItem(area, amount));
@@ -49,38 +76,6 @@ export const useActionStore = defineStore('action', () => {
     }
   }
 
-  function startAction() {
-    if (isRunning.value && !runningAction.value) {
-      runningAction.value = actionQueue[0].start(completeAction);
-    } else {
-      console.error(`Start action but isRunning is ${isRunning.value}, have runningAction is ${runningAction.value !== undefined}`);
-    }
-  }
-
-  function completeAction() {
-    if (runningAction.value) {
-      const loots = runningAction.value.calculateRewards();
-      const amount = runningAction.value.action.amount;
-      const skillId = runningAction.value.action.area.skill.id;
-      const xp = runningAction.value.action.area.xp;
-      runningAction.value = undefined;
-      inventoryStore.adds(loots);
-      characterStore.getSkillById(skillId)?.addXp(xp);
-      if (amount.isInfinite) {
-        startAction();
-      } else {
-        if (amount.amount > 1) {
-          amount.amount -= 1;
-          startAction();
-        } else {
-          removeAction(0);
-        }
-      }
-    } else {
-      console.error('Complete action not exist');
-    }
-  }
-
   return {
     actionQueue,
     runningAction,
@@ -95,11 +90,6 @@ export const useActionStore = defineStore('action', () => {
 
 class ActionQueueItem {
   constructor(public area: SkillArea, public amount: Amount) {
-  }
-
-  start(completeAction: () => void): RunningAction {
-    const duration = this.calculateDuration()
-    return new RunningAction(this, performance.now(), duration, setTimeout(completeAction, duration));
   }
 
   calculateDuration(): number {
