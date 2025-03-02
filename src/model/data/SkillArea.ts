@@ -1,13 +1,13 @@
 import { useGameDataStore } from "@/stores/gameData";
 import type { SkillAreaJson } from "../json/SkillAreaJson";
 import { Loot } from "./Loot";
-import type { Skill } from "./Skill";
+import type { SkillData } from "./SkillData";
 import i18n from "@/i18n";
 
 export class SkillArea {
     constructor(
         public id: string,
-        public skill: Skill,
+        public skill: SkillData,
 
         public sort: number,
         public baseTime: number,

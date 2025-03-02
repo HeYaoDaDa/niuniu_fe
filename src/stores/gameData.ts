@@ -1,13 +1,13 @@
 import { computed, markRaw, ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios';
-import { Skill } from '@/model/data/Skill';
+import { SkillData } from '@/model/data/SkillData';
 import { Item } from '@/model/data/Item';
 import { SkillArea } from '@/model/data/SkillArea';
 import type { GameDataJson } from '@/model/json/GameDataJson';
 
 export const useGameDataStore = defineStore('gameData', () => {
-  const skillMap = new Map<string, Skill>();
+  const skillMap = new Map<string, SkillData>();
   const itemMap = new Map<string, Item>();
   const skillAreaMap = new Map<string, SkillArea>();
   const skillAreasMap = new Map<string, SkillArea[]>();
@@ -30,7 +30,7 @@ export const useGameDataStore = defineStore('gameData', () => {
   };
   function initData(data: GameDataJson) {
     for (const skillJson of data.skills) {
-      skillMap.set(skillJson.id, markRaw(Skill.fromJson(skillJson)));
+      skillMap.set(skillJson.id, markRaw(SkillData.fromJson(skillJson)));
     }
     for (const itemJson of data.items) {
       itemMap.set(itemJson.id, markRaw(Item.fromJson(itemJson)));
@@ -47,7 +47,7 @@ export const useGameDataStore = defineStore('gameData', () => {
       }
     }
   }
-  function getSkillById(id: string): Skill | undefined {
+  function getSkillById(id: string): SkillData | undefined {
     return skillMap.get(id);
   }
   function getItemById(id: string): Item | undefined {

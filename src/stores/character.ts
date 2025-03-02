@@ -1,4 +1,4 @@
-import { Skill } from "@/model/data/Skill";
+import { SkillData } from "@/model/data/SkillData";
 import { defineStore } from "pinia";
 import { useGameDataStore } from "./gameData";
 import { computed, readonly, ref, type ComputedRef, type Ref } from "vue";
@@ -9,7 +9,7 @@ export const useCharacterStore = defineStore('character', () => {
         level: ComputedRef<number>;
 
         constructor(
-            public skill: Skill,
+            public skill: SkillData,
             public xp: Ref<number>,
         ) {
             this.id = skill.id;

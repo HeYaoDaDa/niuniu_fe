@@ -1,14 +1,14 @@
 import i18n from "@/i18n";
 import type { SkillJson } from "../json/SkillJson";
 
-export class Skill {
+export class SkillData {
     constructor(
         public id: string,
         public sort: number,
     ) { }
 
-    static fromJson(skillJson: SkillJson): Skill {
-        return new Skill(
+    static fromJson(skillJson: SkillJson): SkillData {
+        return new SkillData(
             skillJson.id,
             skillJson.sort,
         );
