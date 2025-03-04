@@ -96,7 +96,7 @@ class ActionQueueItem {
     const characterStore = useCharacterStore()
     const skill = characterStore.getSkillById(this.area.skill.id);
     if (skill) {
-      return this.area.baseTime * Math.max((1 - 0.009 * skill.level.value), 1)
+      return Math.max(this.area.baseTime * (1 - 0.009 * skill.level.value), 1000)
     }
     return this.area.baseTime;
   }

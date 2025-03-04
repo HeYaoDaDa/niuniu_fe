@@ -69,17 +69,19 @@ onMounted(() => {
     background-color: #e0e0e0;
     border-radius: 5px;
     overflow: hidden;
+    user-select: none;
 }
 
 .progress-bar {
     height: 100%;
     background-color: #42b983;
-    transition: width 100ms linear;
+    transition: width 16ms linear;
 }
 
 .duration-show {
     position: absolute;
     left: 50%;
+    transform: translate(-50%, 0);
 }
 
 .stop-button {
