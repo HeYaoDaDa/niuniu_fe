@@ -6,9 +6,10 @@ const actionStore = useActionStore();
 
 const progress = ref(0);
 
-const actionDurationshow = computed(() => {
+const runningActionDisplay = computed(() => actionStore.runningAction?.action.toShow());
+const runningActionDurationDisplay = computed(() => {
     if (actionStore.runningAction) {
-        return actionStore.runningAction.getDurationShow();
+        return (Math.floor(actionStore.runningAction.duration / 10) / 100) + 's';
     } else {
         return 'invalid';
     }
@@ -32,14 +33,13 @@ onMounted(() => {
 
 <template>
     <div class="action-div">
-        <div>{{ actionStore.runningAction?.action.toShow() }}]
-        </div>
+        <div>{{ runningActionDisplay }}</div>
         <div class="action-bottom">
             <div class="progress-container">
-                <div class="duration-show">{{ actionDurationshow }}</div>
+                <div class="duration-show">{{ runningActionDurationDisplay }}</div>
                 <div class="progress-bar" :style="{ width: progress + '%' }"></div>
             </div>
-            <button @click="actionStore.removeAction(0)">Stop</button>
+            <button class="stop-button" @click="actionStore.removeAction(0)">Stop</button>
         </div>
         <div v-if="actionStore.queuedActions.length > 0">
             <div v-for="(action, index) in actionStore.queuedActions" :key="index">
@@ -59,6 +59,7 @@ onMounted(() => {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    gap: 8px;
 }
 
 .progress-container {
@@ -79,5 +80,9 @@ onMounted(() => {
 .duration-show {
     position: absolute;
     left: 50%;
+}
+
+.stop-button {
+    background-color: red;
 }
 </style>

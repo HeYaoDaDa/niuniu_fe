@@ -96,7 +96,7 @@ class ActionQueueItem {
     const characterStore = useCharacterStore()
     const skill = characterStore.getSkillById(this.area.skill.id);
     if (skill) {
-      return this.area.baseTime * (1 - 0.009 * skill.level.value)
+      return this.area.baseTime * Math.max((1 - 0.009 * skill.level.value), 1)
     }
     return this.area.baseTime;
   }
@@ -113,10 +113,6 @@ class RunningAction {
     public duration: number,
     public timeoutId: number
   ) { }
-
-  getDurationShow(): string {
-    return this.duration / 1_000 + 's';
-  }
 
   cancel() {
     clearTimeout(this.timeoutId);

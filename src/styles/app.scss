@@ -122,3 +122,19 @@ html {
   display: flex;
   flex-direction: column;
 }
+
+// button
+button {
+  background-color: blue;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  padding: 4px 16px 4px 16px;
+  font-weight: 600;
+  user-select: none;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.2);
+}
