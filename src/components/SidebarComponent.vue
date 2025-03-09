@@ -24,7 +24,7 @@ const characterStore = useCharacterStore();
         </div>
 
         <Tooltip v-for="characterSkill in characterStore.allSkills" :key="characterSkill.id" theme="skill-tooltip">
-            <router-link :to="`/skill/${characterSkill.id}`" active-class="active-link" class="router-link">
+            <router-link :to="`/skill/${characterSkill.id}`" active-class="active-link">
                 <SvgIcon :name="`skill-${characterSkill.id}`" width="16" height="16" />
                 <div>
                     {{ characterSkill.data.getName() + ' ' + (characterSkill.level) }}
@@ -63,7 +63,7 @@ const characterStore = useCharacterStore();
     }
 }
 
-.router-link {
+a {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -75,9 +75,9 @@ const characterStore = useCharacterStore();
     &:hover:not(.active-link) {
         background-color: $primary-light;
     }
-}
 
-.active-link {
-    background-color: $primary-dark;
+    &.active-link {
+        background-color: $primary-dark;
+    }
 }
 </style>
