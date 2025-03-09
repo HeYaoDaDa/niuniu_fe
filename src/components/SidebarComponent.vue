@@ -10,7 +10,7 @@ const characterStore = useCharacterStore();
 </script>
 
 <template>
-    <div id="sidebar">
+    <div id="sidebar-root">
         <div id="game-title-container">
             <SvgIcon name="chest" width="64" height="64" />
             <div>
@@ -43,10 +43,11 @@ const characterStore = useCharacterStore();
 </template>
 
 <style lang="scss" scoped>
-#sidebar {
+#sidebar-root {
     min-width: 200px;
     display: flex;
     flex-flow: column nowrap;
+    box-shadow: 5px 0 10px -5px rgba(0, 0, 0, 0.3);
 }
 
 #game-title-container {

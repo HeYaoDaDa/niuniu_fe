@@ -66,7 +66,7 @@ onMounted(() => {
     position: relative;
     width: 256px;
     height: 16px;
-    background-color: #e0e0e0;
+    background-color: $text-light-dark;
     border-radius: 5px;
     overflow: hidden;
     user-select: none;
@@ -74,7 +74,7 @@ onMounted(() => {
 
 .progress-bar {
     height: 100%;
-    background-color: #42b983;
+    background-color: $secondary;
     transition: width 16ms linear;
 }
 

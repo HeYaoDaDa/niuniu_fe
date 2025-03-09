@@ -36,6 +36,7 @@ import { RouterView } from 'vue-router'
   height: 100vh;
   display: flex;
   flex-flow: row nowrap;
+  gap: 4px;
 
   #sidebar {
     flex: 0 0 auto;
@@ -50,9 +51,6 @@ import { RouterView } from 'vue-router'
 
     #header {
       flex: 0 0 auto;
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
     }
 
     #content-second-sidebar-container {

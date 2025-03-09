@@ -7,33 +7,39 @@ const actionStore = useActionStore();
 </script>
 
 <template>
-    <div class="header-left">
-        <ActionQueueComponent v-if="actionStore.isRunning" />
+    <div id="header-root">
+        <div class="header-left">
+            <ActionQueueComponent v-if="actionStore.isRunning" />
+        </div>
+        <div class="header-right">
+            <div>INFO</div>
+        </div>
+        <NotificationBar />
     </div>
-    <div class="header-right">
-        <div>INFO</div>
-    </div>
-    <NotificationBar />
 </template>
 
-<style lang="css" scoped>
-.header-left {
-    flex-grow: 4;
+<style lang="scss" scoped>
+#header-root {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: 64px;
+    box-shadow: 0 5px 10px -8px rgba(0, 0, 0, 0.3);
+    padding: 8px;
+    background-color: $text-light;
+    color: $text-dark;
+}
 
+.header-left {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-
-    background-color: aliceblue;
 }
 
 .header-right {
-    flex-grow: 1;
-
     display: flex;
     flex-flow: column nowrap;
     align-items: end;
-
-    background-color: bisque;
 }
 </style>

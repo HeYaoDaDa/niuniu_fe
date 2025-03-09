@@ -27,3 +27,4 @@ $warning-light: color.adjust($warning, $lightness: 10%);
 
 $text-dark: #1a2a3a;
 $text-light: #ecf0f1;
+$text-light-dark: color.adjust($text-light, $lightness: -10%);

@@ -12,7 +12,7 @@ const notificationStore = useNotificationStore();
     </div>
 </template>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .notifications {
     z-index: 2;
     position: fixed;
@@ -24,6 +24,9 @@ const notificationStore = useNotificationStore();
 }
 
 .notification {
-    background-color: cadetblue;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: $primary;
+    color: $text-light;
 }
 </style>
