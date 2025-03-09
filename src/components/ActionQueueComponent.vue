@@ -49,7 +49,7 @@ onMounted(() => {
     </div>
 </template>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .action-div {
     display: flex;
     flex-flow: column nowrap;
@@ -85,6 +85,14 @@ onMounted(() => {
 }
 
 .stop-button {
-    background-color: red;
+    background-color: $negative;
+
+    &:hover {
+        background-color: $negative-light;
+    }
+
+    &:active {
+        background-color: $negative-dark;
+    }
 }
 </style>

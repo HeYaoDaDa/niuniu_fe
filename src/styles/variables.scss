@@ -1,2 +1,29 @@
-$hover-color: rgb(255, 243, 229);
-$active-color: rgb(255, 228, 196);
+@use 'sass:color';
+
+$primary: #1976d2;
+$primary-dark: color.adjust($primary, $lightness: -10%);
+$primary-light: color.adjust($primary, $lightness: 10%);
+
+$secondary: #26a69a;
+$secondary-dark: color.adjust($secondary, $lightness: -10%);
+$secondary-light: color.adjust($secondary, $lightness: 10%);
+
+$accent: #9c27b0;
+$accent-dark: color.adjust($accent, $lightness: -10%);
+$accent-light: color.adjust($accent, $lightness: 10%);
+
+$positive: #21ba45;
+$positive-dark: color.adjust($positive, $lightness: -10%);
+$positive-light: color.adjust($positive, $lightness: 10%);
+$negative: #c10015;
+$negative-dark: color.adjust($negative, $lightness: -10%);
+$negative-light: color.adjust($negative, $lightness: 10%);
+$info: #31ccec;
+$info-dark: color.adjust($info, $lightness: -10%);
+$info-light: color.adjust($info, $lightness: 10%);
+$warning: #f2c037;
+$warning-dark: color.adjust($warning, $lightness: -10%);
+$warning-light: color.adjust($warning, $lightness: 10%);
+
+$text-dark: #1a2a3a;
+$text-light: #ecf0f1;

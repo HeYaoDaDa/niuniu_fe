@@ -1,5 +1,7 @@
 export default {
-  gameName: 'Wood Cow Idle',
+  gameNameFirst: "Chest",
+  gameNameLast: "Idle",
+  gameName: '@:gameNameFirst @:gameNameLast',
   skill: {
     mining: { name: 'Mining', description: 'Mining.' },
     woodcutting: { name: 'Woodcutting', description: 'Woodcutting.' },

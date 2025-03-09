@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import GameView from '../views/GameView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SkillAreaView from '@/views/game/SkillAreaView.vue'
@@ -16,7 +16,7 @@ const router = createRouter({
       name: 'home',
       redirect: '/skill/mining',
       meta: { requireGameData: true },
-      component: HomeView,
+      component: GameView,
       children: [
         {
           path: 'skill/:id',

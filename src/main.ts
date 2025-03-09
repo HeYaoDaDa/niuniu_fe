@@ -7,6 +7,7 @@ import router from './router'
 import FloatingVue from 'floating-vue'
 import 'floating-vue/dist/style.css'
 import i18n from '@/i18n';
+import 'virtual:svg-icons-register';
 
 const app = createApp(App)
 
@@ -16,7 +17,15 @@ app.use(pinia)
 
 app.use(router)
 
-app.use(FloatingVue)
+app.use(FloatingVue, {
+    themes: {
+        'skill-tooltip': {
+            triggers: ['hover', 'focus', 'touch'],
+            placement: 'right',
+            distance: 0,
+        },
+    },
+})
 
 app.use(i18n)
 

@@ -1,5 +1,7 @@
 export default {
-  gameName: '木牛放置',
+  gameNameFirst: "宝箱",
+  gameNameLast: "放置",
+  gameName: '@:gameNameFirst@:gameNameLast',
   skill: {
     mining: { name: '挖矿', description: '挖矿.' },
     woodcutting: { name: '伐木', description: '伐木.' },
