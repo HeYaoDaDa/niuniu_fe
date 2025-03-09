@@ -41,14 +41,14 @@ function addAction(area: SkillArea) {
 <template>
   <div class="area-list">
     <div class="area-item" v-for="area in areas" :key="area.id" @click="openModal(area)">
-      <p>{{ area.getName() }}</p>
-      <p>{{ area.getDescription() }}</p>
+      <div>{{ area.getName() }}</div>
+      <div>{{ area.getDescription() }}</div>
     </div>
     <ModalBox v-if="openArea" @close="closeModal">
-      <p>{{ openArea.getName() }}</p>
-      <p>{{ openArea.skill.getName() }}</p>
-      <p>{{ openArea.getDescription() }}</p>
-      <p>{{ openArea.baseTime / 1000 }}s</p>
+      <div>{{ openArea.getName() }}</div>
+      <div>{{ openArea.skill.getName() }}</div>
+      <div>{{ openArea.getDescription() }}</div>
+      <div>{{ openArea.baseTime / 1000 }}s</div>
       <div v-for="loot, index in openArea.products" :key="index">
         {{ loot.percentage }}% {{ loot.item.getName() }}: {{ loot.min }}-{{ loot.max }}
       </div>

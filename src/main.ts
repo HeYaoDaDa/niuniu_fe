@@ -24,6 +24,10 @@ app.use(FloatingVue, {
             placement: 'right',
             distance: 0,
         },
+        'item-tooltip': {
+            $extend: 'skill-tooltip',
+            placement: 'bottom'
+        },
     },
 })
 

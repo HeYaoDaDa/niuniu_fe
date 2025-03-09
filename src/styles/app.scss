@@ -57,21 +57,6 @@ a {
   background-color: #bee7e9;
 }
 
-.inventory-list {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.inventory-item {
-  width: 100px;
-  height: 100px;
-  background-color: #bee7e9;
-}
-
 /* modal */
 .modal-box {
   position: fixed;
